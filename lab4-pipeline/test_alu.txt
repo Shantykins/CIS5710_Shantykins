@@ -10,61 +10,9 @@ iverilog -Wall -Iinclude -s test_processor -o a.out .set_testcase.v lc4_alu.v lc
 INFO: include/bram.v:45: /mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab4-pipeline/test_data/test_alu.hex
       Time: 0 Scope: test_processor.memory.memory
 Cycle number:           0
-Error at cycle           4: pc should be 8200 (but was 8204)
-Error at cycle           4: regfile_in should be 0010 (but was 0000)
-Error at cycle           4: nzp_new_bits should be 1 (but was 2)
-Error at cycle           5: pc should be 8201 (but was 8205)
-Error at cycle           5: regfile_in should be b010 (but was 0000)
-Error at cycle           5: nzp_new_bits should be 4 (but was 2)
-Error at cycle           6: pc should be 8202 (but was 8206)
-Error at cycle           6: regfile_in should be 0010 (but was 0000)
-Error at cycle           6: nzp_new_bits should be 1 (but was 2)
-Error at cycle           7: pc should be 8203 (but was 8207)
-Error at cycle           7: regfile_in should be d010 (but was 0000)
-Error at cycle           7: nzp_new_bits should be 4 (but was 2)
-Error at cycle           8: pc should be 8204 (but was 8208)
-Error at cycle           8: regfile_in should be 0010 (but was 0000)
-Error at cycle           8: nzp_new_bits should be 1 (but was 2)
-Error at cycle           9: pc should be 8205 (but was 8209)
-Error at cycle           9: regfile_in should be d010 (but was 0000)
-Error at cycle           9: nzp_new_bits should be 4 (but was 2)
-Error at cycle          10: pc should be 8206 (but was 820a)
-Error at cycle          10: regfile_in should be 0010 (but was 0000)
-Error at cycle          10: nzp_new_bits should be 1 (but was 2)
-Error at cycle          11: pc should be 8207 (but was 820b)
-Error at cycle          11: regfile_in should be b010 (but was 0000)
-Error at cycle          11: nzp_new_bits should be 4 (but was 2)
-Error at cycle          12: pc should be 8208 (but was 820c)
-Error at cycle          12: regfile_in should be 0093 (but was 0000)
-Error at cycle          12: nzp_new_bits should be 1 (but was 2)
-Error at cycle          13: pc should be 8209 (but was 820d)
-Error at cycle          13: regfile_in should be b010 (but was 0000)
-Error at cycle          13: nzp_new_bits should be 4 (but was 2)
-Error at cycle          14: pc should be 820a (but was 820e)
-Error at cycle          14: regfile_in should be ffe4 (but was 0000)
-Error at cycle          14: nzp_new_bits should be 4 (but was 2)
-Error at cycle          15: pc should be 820b (but was 820f)
-Error at cycle          15: nzp_new_bits should be 1 (but was 2)
-Error at cycle          16: pc should be 820c (but was 8210)
-Error at cycle          16: regfile_in should be ff6e (but was 0000)
-Error at cycle          16: nzp_new_bits should be 4 (but was 2)
-Error at cycle          17: pc should be 820d (but was 8211)
-Error at cycle          17: regfile_in should be 8020 (but was 0000)
-Error at cycle          17: nzp_new_bits should be 4 (but was 2)
-Error at cycle          18: pc should be 820e (but was 8212)
-Error at cycle          18: nzp_new_bits should be 1 (but was 2)
-Error at cycle          19: pc should be 820f (but was 8213)
-Error at cycle          19: regfile_in should be 00fc (but was 0000)
-Error at cycle          19: nzp_new_bits should be 1 (but was 2)
-Error at cycle          20: pc should be 8210 (but was 8214)
-Error at cycle          20: regfile_in should be 0200 (but was 0000)
-Error at cycle          20: nzp_new_bits should be 1 (but was 2)
-Error at cycle          21: pc should be 8211 (but was 8215)
-Error at cycle          21: regfile_in should be 9620 (but was 0000)
-Additional       19710 errors NOT printed.
-Simulation finished:       83405 test cases       19760 errors [/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab4-pipeline/test_data/test_alu.ctrace]
+Simulation finished:       83405 test cases           0 errors [/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab4-pipeline/test_data/test_alu.ctrace]
 <scorePossible>     83405</scorePossible>
-<scoreActual>     63645</scoreActual>
+<scoreActual>     83405</scoreActual>
   Instructions:                7582
   Total Cycles:                7585
   CPI x 1000:        1000
