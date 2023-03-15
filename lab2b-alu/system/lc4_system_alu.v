@@ -480,3 +480,4 @@ module lc4_system_alu(
        default: state <= Idle;
      endcase
 endmodule
+

@@ -4,7 +4,7 @@
 `define EXIT_AFTER_FIRST_ERROR 0
 
 // change this to adjust how many errors are printed out
-`define MAX_ERRORS_TO_DISPLAY 15
+`define MAX_ERRORS_TO_DISPLAY 20000
 
 // set this to 1 to create a waveform file for easier debugging
 `define GENERATE_VCD 1
@@ -86,9 +86,9 @@ module test_alu;
       #100;
       #2;
 
-      // ******************
-      // *** GP TESTING ***
-      // ******************
+      // // ******************
+      // // *** GP TESTING ***
+      // // ******************
 
       while (6 == $fscanf(gpInFile, "gin:%b pin:%b cin:%b => gout:%b pout:%b cout:%b\n", gin, pin, cin, expectedGout, expectedPout, expectedCout)) begin
          #2; // wait for inputs to propagate through GP unit
@@ -136,24 +136,24 @@ module test_alu;
       end
 
       
-      // *******************
-      // *** ALU TESTING ***
-      // *******************
+      // // *******************
+      // // *** ALU TESTING ***
+      // // *******************
       
+   
       lineno = 0;
       // read in the ALU input trace one line at a time
       while (5 == $fscanf(aluInFile, "%b %b %b %b %b", insn, pc, r1data, r2data, expectedALUResult)) begin
-         #2; // wait for inputs to propagate through ALU
-         
-         tests = tests + 1;
-         lineno = lineno+1;
+          #2; // wait for inputs to propagate through ALU
+          tests = tests + 1;
+          lineno = lineno+1;
                 
          // write the output to the output trace file
-         //if (outputFile) begin
-         //   $fdisplay(outputFile, "%b %b %b %b %b", insn, pc, r1data, r2data, actualALUResult);
-         //end
+          if (outputFile) begin
+             $fdisplay(outputFile, "%b %b %b %b %b", insn, pc, r1data, r2data, actualALUResult);
+         end
          
-         // print an error if one occurred
+        // print an error if one occurred
          if (actualALUResult !== expectedALUResult) begin
             errors = errors + 1;
 

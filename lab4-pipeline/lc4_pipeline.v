@@ -44,6 +44,325 @@ module lc4_processor
     * You do not need to resynthesize and re-implement if this is all you change;
     * just restart the simulation.
     */
+
+    //
+    // TEST SIGNALS
+    //
+
+    assign led_data = switch_data;
+
+   /*************************************************************************************
+   *    FETCH STAGE
+   *************************************************************************************/
+   //==============================================================
+   // REGISTER DECLARATION 
+   // Registers: 
+   // - Instruction Register(From IMEM)
+   // - PC output from pc reg
+   //==============================================================
+   // Program counter register, starts at 8200h at bootup
+   Nbit_reg #(16, 16'h8200) pc_reg (.in(next_pc), .out(pc), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // PC +1 adder
+   cla16 pcInc(.a(pc), .b(16'h0001), .cin(1'b0), .sum(pc_adder_out));
+
+   // Wire Declarations
+   wire [15:0] next_pc;       // Input to PC reg after mux. 
+   wire [15:0] pc;            // Output of PC Register
+   wire [15:0] pc_adder_out;  // Output of PC + 1
+
+   // Logic
+   assign next_pc = pc_adder_out;  // Assign to cla out for ALU insns. TBD: CHANGE LATER
+
+   //
+   // TEST SIGNAL : PC
+   //
+   assign o_cur_pc =  pc;// Address to read from instruction memory
+   assign test_cur_pc = pc;
+
+
+   /*************************************************************************************
+   *    DECODE STAGE
+   *************************************************************************************/
+   //==============================================================
+   // REGISTER DECLARATION 
+   // Registers: 
+   // - Instruction Register(From Fetch Stage IR)
+   // - PC output from Fetch stage PC Reg
+   //==============================================================
+
+   // Pipeline Registers : PC
+   Nbit_reg #(16, 16'h8200) decode_pc_pipeline_reg (.in(pc_adder_out), .out(decode_pc_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // Fetch Instruction Register
+   Nbit_reg #(16, 16'h0000) decode_ir_pipeline_reg (.in(i_cur_insn), .out(decode_ir_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst)); 
+
+   //
+   // DECODER INSTANTIATION
+   //
+   lc4_decoder decoder( .insn(decode_ir_pipeline_out),                   // instruction input  wire [15:0] 
+                        .r1sel(decode_rssel),                            // rs
+                        .r1re(decode_rsre),                              // does this instruction read from rs?
+                        .r2sel(decode_rtsel),                            // rt
+                        .r2re(decode_rtre),                              // does this instruction read from rt?
+                        .wsel(decode_rdsel),                             // rd
+                        .regfile_we(decode_regfile_we),                  // does this instruction write to rd?
+                        .nzp_we(decode_nzp_we),                          // does this instruction write the NZP bits?
+                        .select_pc_plus_one(decode_select_pc_plus_one),  // write PC+1 to the regfile?
+                        .is_load(decode_is_load),                        // is this a load instruction?
+                        .is_store(decode_is_store),                      // is this a store instruction?
+                        .is_branch(decode_is_branch),                    // is this a branch instruction?
+                        .is_control_insn(decode_is_control_insn)         // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+                     );
+
+
+   //
+   // REGISTER FILE INSTANTIATION
+   //
+   lc4_regfile #(16) regfile( .clk(clk),
+                              .gwe(gwe),
+                              .rst(rst),
+                              .i_rs(decode_rssel),                    // rs selector
+                              .o_rs_data(decode_regfile_rs_output),   // rs contents
+                              .i_rt(decode_rtsel),                    // rt selector
+                              .o_rt_data(decode_regfile_rt_output),   // rt contents
+                              .i_rd(decode_rdsel),                    // rd selector
+                              .i_wdata(decode_regfile_rd_input) ,     // data to write
+                              .i_rd_we(decode_regfile_we)             // write enable
+                            );
+   //Wire Declaration
+   wire [15:0] decode_pc_pipeline_out; // Output of PC Fetch pipeline register
+   wire [15:0] decode_ir_pipeline_out; // Output of IR Fetch pipeline register
+
+   wire [ 2:0] decode_rssel;              // rs
+   wire        decode_rsre;               // does this instruction read from rs?
+   wire [ 2:0] decode_rtsel;              // rt
+   wire        decode_rtre;               // does this instruction read from rt?
+   wire [ 2:0] decode_rdsel;               // rd
+   wire        decode_regfile_we;         // does this instruction write to rd?
+   wire        decode_nzp_we;             // does this instruction write the NZP bits?
+   wire        decode_select_pc_plus_one; // write PC+1 to the regfile?
+   wire        decode_is_load;            // is this a load instruction?
+   wire        decode_is_store;           // is this a store instruction?
+   wire        decode_is_branch;          // is this a branch instruction?
+   wire        decode_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+   wire [15:0] decode_regfile_rs_output; 
+   wire [15:0] decode_regfile_rt_output; 
+   wire [15:0] decode_regfile_rd_input; 
+
+
+   /*************************************************************************************
+   *    EXECUTE STAGE
+   *************************************************************************************/
+   //==============================================================
+   // REGISTER DECLARATION 
+   // Registers: 
+   // - Instruction Register(From Decode Stage IR)
+   // - PC output from Decode stage PC Reg
+   // - Output from Regfile 
+   // - Output from Regfile
+   //==============================================================
+   // Pipeline Registers : PC
+   Nbit_reg #(16, 16'h8200) execute_pc_pipeline_reg (.in(pc_adder_out), .out(execute_pc_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // Pipeline Instruction Register
+   Nbit_reg #(16, 16'h0000) execute_ir_pipeline_reg (.in(decode_ir_pipeline_out), .out(execute_ir_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst)); 
+   // Pipeline Rs
+   Nbit_reg #(16, 16'h0000) execute_rs_pipeline_reg (.in(decode_regfile_rs_output), .out(execute_rs_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // Pipeline Rt 
+   Nbit_reg #(16, 16'h0000) execute_rt_pipeline_reg (.in(decode_regfile_rt_output), .out(execute_rt_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
+   // NZP Register
+   Nbit_reg #(3) nzp_reg (.in(nzp_in), .out(nzp_out), .clk(clk), .we(execute_nzp_we), .gwe(gwe), .rst(rst));
+
+
+   //
+   // DECODER INSTANTIATION
+   //
+   lc4_decoder decoder_execute( .insn(execute_ir_pipeline_out),                   // instruction input  wire [15:0] 
+                        .r1sel(execute_rssel),                            // rs
+                        .r1re(execute_rsre),                              // does this instruction read from rs?
+                        .r2sel(execute_rtsel),                            // rt
+                        .r2re(execute_rtre),                              // does this instruction read from rt?
+                        .wsel(execute_rdsel),                             // rd
+                        .regfile_we(execute_regfile_we),                  // does this instruction write to rd?
+                        .nzp_we(execute_nzp_we),                          // does this instruction write the NZP bits?
+                        .select_pc_plus_one(execute_select_pc_plus_one),  // write PC+1 to the regfile?
+                        .is_load(execute_is_load),                        // is this a load instruction?
+                        .is_store(execute_is_store),                      // is this a store instruction?
+                        .is_branch(execute_is_branch),                    // is this a branch instruction?
+                        .is_control_insn(execute_is_control_insn)         // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+                     );
+   
+   //
+   // ALU INSTANTIATION
+   //
+   lc4_alu alu(.i_insn(execute_ir_pipeline_out),
+               .i_pc(pc),
+               .i_r1data(execute_aluin_rs),
+               .i_r2data(execute_aluin_rt),
+               .o_result(alu_rd_output));
+
+   //Wire Declaration
+   wire [15:0] execute_pc_pipeline_out; // Output of PC Fetch pipeline register
+   wire [15:0] execute_ir_pipeline_out; // Output of IR Fetch pipeline register
+   wire [15:0] execute_rs_pipeline_out; // Output of RS Fetch pipeline register
+   wire [15:0] execute_rt_pipeline_out; // Output of IR Fetch pipeline register
+
+   wire [ 2:0] execute_rssel;              // rs
+   wire        execute_rsre;               // does this instruction read from rs?
+   wire [ 2:0] execute_rtsel;              // rt
+   wire        execute_rtre;               // does this instruction read from rt?
+   wire [ 2:0] execute_rdsel;               // rd
+   wire        execute_regfile_we;         // does this instruction write to rd?
+   wire        execute_nzp_we;             // does this instruction write the NZP bits?
+   wire        execute_select_pc_plus_one; // write PC+1 to the regfile?
+   wire        execute_is_load;            // is this a load instruction?
+   wire        execute_is_store;           // is this a store instruction?
+   wire        execute_is_branch;          // is this a branch instruction?
+   wire        execute_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+
+   wire [15:0] execute_aluin_rs;
+   wire [15:0] execute_aluin_rt; 
+
+   wire [15:0] alu_rd_output;
+
+   wire [2:0] nzp_in;
+   wire[2:0] nzp_out;
+
+   //
+   // Logic
+   //
+   assign  nzp_in =  (alu_rd_output[15] == 1'b1) ? 3'b100 :       // N
+                     (alu_rd_output == 16'b0)    ? 3'b010 :       // Z
+                     (alu_rd_output[15] == 1'b0) ? 3'b001 :       // P
+                                                   3'b000;
+
+   //
+   // Bypassing
+   //
+
+   // ALU IN RS WX Bypass Logic
+   assign execute_aluin_rs = ((writeback_rdsel == execute_rssel) && execute_rsre) ? writeback_alu_pipeline_out : execute_rs_pipeline_out;
+   assign execute_aluin_rt = ((writeback_rdsel == execute_rtsel) && execute_rtre) ? writeback_alu_pipeline_out : execute_rt_pipeline_out;
+
+   /*************************************************************************************
+    *    MEMORY STAGE
+    *************************************************************************************/
+   //==============================================================
+   // REGISTER DECLARATION 
+   // Registers: 
+   // - Instruction Register(From EXECUTE Stage IR)
+   // - ALU output
+   // - RT output from Regfile
+   //==============================================================
+   // Pipeline Instruction Register
+   Nbit_reg #(16, 16'h0000) memory_ir_pipeline_reg (.in(execute_ir_pipeline_out), .out(memory_ir_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst)); 
+   // ALU Output
+   Nbit_reg #(16, 16'h0000) memory_alu_pipeline_reg (.in(alu_rd_output), .out(memory_alu_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // Pipeline Rt 
+   Nbit_reg #(16, 16'h0000) memory_rt_pipeline_reg (.in(execute_rt_pipeline_out), .out(memory_rt_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
+   //
+   // Wires
+   //
+   wire [15:0] memory_ir_pipeline_out;
+   wire [15:0] memory_alu_pipeline_out;
+   wire [15:0] memory_rt_pipeline_out;
+
+   wire memory_is_load = (memory_ir_pipeline_out[15:12] == 4'b0110);
+   wire memory_is_store = (memory_ir_pipeline_out[15:12] == 4'b0111);
+
+   //
+   // Logic 
+   //
+
+   assign o_dmem_towrite = (memory_is_store == 1'b1) ? memory_rt_pipeline_out : 16'h0000;
+   assign o_dmem_we = memory_is_store; 
+
+   assign o_dmem_addr = (memory_is_store == 1'b1 || 
+                          memory_is_load == 1'b1) ? memory_alu_pipeline_out : 
+                                                    16'h0000;
+
+   assign test_dmem_we             = memory_is_store;       // Testbench: data memory write enable
+   assign test_dmem_addr           = o_dmem_addr;     // Testbench: address to read/write memory
+   assign test_dmem_data           = (memory_is_store == 1'b1) ? o_dmem_towrite :
+                                      (memory_is_load  == 1'b1) ? i_cur_dmem_data : 16'h0000;
+
+   /************************************************************************************
+    *    WRITE-BACK STAGE
+    *************************************************************************************/
+   //
+   // REGISTER DECLARATION 
+   // Registers: 
+   // - Instruction Register(From EXECUTE Stage IR)
+   // - ALU output
+   // - Output from Memory
+   //==============================================================
+
+   // Pipeline Instruction Register
+   Nbit_reg #(16, 16'h0000) writeback_ir_pipeline_reg (.in(memory_ir_pipeline_out), .out(writeback_ir_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst)); 
+   // Data Memory Output
+   Nbit_reg #(16, 16'h0000) writeback_data_pipeline_reg (.in(i_cur_dmem_data), .out(writeback_data_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   // Pipeline Rt 
+   Nbit_reg #(16, 16'h0000) writeback_rt_pipeline_reg (.in(memory_rt_pipeline_out), .out(writeback_alu_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
+   // Decoder
+   lc4_decoder decoder_writeback( .insn(writeback_ir_pipeline_out),                   // instruction input  wire [15:0] 
+                              .r1sel(writeback_rssel),                            // rs
+                              .r1re(writeback_rsre),                              // does this instruction read from rs?
+                              .r2sel(writeback_rtsel),                            // rt
+                              .r2re(writeback_rtre),                              // does this instruction read from rt?
+                              .wsel(writeback_rdsel),                             // rd
+                              .regfile_we(writeback_regfile_we),                  // does this instruction write to rd?
+                              .nzp_we(writeback_nzp_we),                          // does this instruction write the NZP bits?
+                              .select_pc_plus_one(writeback_select_pc_plus_one),  // write PC+1 to the regfile?
+                              .is_load(writeback_is_load),                        // is this a load instruction?
+                              .is_store(writeback_is_store),                      // is this a store instruction?
+                              .is_branch(writeback_is_branch),                    // is this a branch instruction?
+                              .is_control_insn(writeback_is_control_insn)         // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+                           );
+
+   //
+   // Wire Declarations
+   //
+   wire [15:0] writeback_alu_pipeline_out;
+   wire [15:0] writeback_data_pipeline_out;
+   wire [15:0] writeback_ir_pipeline_out;
+
+   wire [ 2:0] writeback_rssel;              // rs
+   wire        writeback_rsre;               // does this instruction read from rs?
+   wire [ 2:0] writeback_rtsel;              // rt
+   wire        writeback_rtre;               // does this instruction read from rt?
+   wire [ 2:0] writeback_rdsel;               // rd
+   wire        writeback_regfile_we;         // does this instruction write to rd?
+   wire        writeback_nzp_we;             // does this instruction write the NZP bits?
+   wire        writeback_select_pc_plus_one; // write PC+1 to the regfile?
+   wire        writeback_is_load;            // is this a load instruction?
+   wire        writeback_is_store;           // is this a store instruction?
+   wire        writeback_is_branch;          // is this a branch instruction?
+   wire        writeback_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+
+
+   //
+   // Logic
+   //
+   assign writeback_alu_pipeline_out = decode_regfile_rd_input;
+
+   //========================================================
+   // TEST SIGNALS
+   //=======================================================
+   
+    assign test_stall = (writeback_ir_pipeline_out[15:9] == 7'b0) ? 2'b10 : 2'b00; // No Stall
+   // assign test_cur_pc =  // Testbench: program counter
+    assign test_cur_insn = writeback_ir_pipeline_out; // Testbench: instruction bits
+    assign test_regfile_we = writeback_regfile_we; // Testbench: register file write enable
+    assign test_regfile_wsel = writeback_rdsel; // Testbench: which register to write in the register file 
+    assign test_regfile_data = writeback_data_pipeline_out; // Testbench: value to write into the register file
+    assign test_nzp_we = writeback_nzp_we; // Testbench: NZP condition codes write enable
+    assign test_nzp_new_bits = (writeback_data_pipeline_out[15] == 1'b1) ? 3'b100 :       // N
+                               (writeback_data_pipeline_out == 16'b0)    ? 3'b010 :       // Z
+                               (writeback_data_pipeline_out[15] == 1'b0) ? 3'b001 :       // P
+                                                             3'b000; // Testbench: value to write to NZP bits
+
+
 `ifndef NDEBUG
    always @(posedge gwe) begin
       // $display("%d %h %h %h %h %h", $time, f_pc, d_pc, e_pc, m_pc, test_cur_pc);

@@ -1,4 +1,5 @@
-/* TODO: name and PennKeys of all group members here
+/* TODO: Shantanu Sampath and Adwayt Nadkarni
+* PENN ID: shantz and adwayt
  *
  * lc4_single.v
  * Implements a single-cycle data path
@@ -42,14 +43,133 @@ module lc4_processor
    
     input  wire [7:0]  switch_data,        // Current settings of the Zedboard switches
     output wire [7:0]  led_data            // Which Zedboard LEDs should be turned on?
-    );
+   );
 
    // By default, assign LEDs to display switch inputs to avoid warnings about
    // disconnected ports. Feel free to use this for debugging input/output if
    // you desire.
    assign led_data = switch_data;
 
+   wire [ 2:0] rssel;              // rs
+   wire        rsre;               // does this instruction read from rs?
+   wire [ 2:0] rtsel;              // rt
+   wire        rtre;               // does this instruction read from rt?
+   wire [ 2:0] rdsel;               // rd
+   wire        regfile_we;         // does this instruction write to rd?
+   wire        nzp_we;             // does this instruction write the NZP bits?
+   wire        select_pc_plus_one; // write PC+1 to the regfile?
+   wire        is_load;            // is this a load instruction?
+   wire        is_store;           // is this a store instruction?
+   wire        is_branch;          // is this a branch instruction?
+   wire        is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+
+   wire [15:0] alu_rs_input;
+   wire [15:0] alu_rt_input;
+   wire [15:0] alu_rd_output;
+
+   wire [15:0] regfile_rs_output;
+   wire [15:0] regfile_rt_output;
+   wire [15:0] regfile_rd_input;
+
+
+    assign o_dmem_towrite = (is_store == 1'b1) ? regfile_rt_output : 16'h0000;
+    assign o_dmem_we = is_store; 
+
+    assign o_dmem_addr = (is_store == 1'b1 || 
+                          is_load == 1'b1) ? alu_rd_output : 
+                                             16'h0000; // Value to write to data memory
+    assign test_cur_pc              = pc;        // Testbench: program counter
+    assign test_cur_insn            = i_cur_insn;      // Testbench: instruction bits
+    assign test_regfile_we          = regfile_we;    // Testbench: register file write enable
+    assign test_regfile_wsel        = rdsel;  // Testbench: which register to write in the register file 
+    assign test_regfile_data        = regfile_rd_input;  // Testbench: value to write into the register file
+    assign test_nzp_we              = nzp_we;        // Testbench: NZP condition codes write enable
+    assign test_nzp_new_bits        = nzp_in;  // Testbench: value to write to NZP bits
+    assign test_dmem_we             = is_store;       // Testbench: data memory write enable
+    assign test_dmem_addr           = o_dmem_addr;     // Testbench: address to read/write memory
+    assign test_dmem_data           = (is_store == 1'b1) ? o_dmem_towrite :
+                                      (is_load  == 1'b1) ? i_cur_dmem_data : 16'h0000;     // Testbench: value read/writen from/to memory
+
+
+   cla16 pcInc(.a(pc), .b(16'h0001), .cin(1'b0), .sum(pc_adder_out));
+
+   wire [15:0] pc_adder_out;
+
+   assign o_cur_pc = pc;
+
+   assign next_pc = ( i_cur_insn[15:9]  == 7'b0000000 && nzp_out == 3'b000) ?  alu_rd_output : 
+                  (i_cur_insn[15:9]  == 7'b0000001 && nzp_out == 3'b001) ?  alu_rd_output :  //BRp
+                  (i_cur_insn[15:9]  == 7'b0000010 && nzp_out == 3'b010) ?  alu_rd_output : //BRz
+                  (i_cur_insn[15:9]  == 7'b0000011 && (nzp_out==3'b010 || nzp_out==3'b001)) ?  alu_rd_output : //BRzp
+                  (i_cur_insn[15:9]  == 7'b0000100 && nzp_out == 3'b100) ?  alu_rd_output : //BRn
+                  (i_cur_insn[15:9]  == 7'b0000101 && (nzp_out==3'b100 || nzp_out==3'b001)) ?  alu_rd_output : //BRnp
+                  (i_cur_insn[15:9]  == 7'b0000110 && (nzp_out==3'b010 || nzp_out==3'b100)) ?  alu_rd_output : //BRnz
+                  (i_cur_insn[15:9]  == 7'b0000111 && (nzp_out==3'b010 || nzp_out==3'b001 || nzp_out==3'b100)) ?  alu_rd_output : //BRnzp
+                  (is_control_insn == 1'b1 && i_cur_insn[15:11]  == 5'b01001) ?  alu_rd_output : // JSR
+                  (is_control_insn == 1'b1 && i_cur_insn[15:11]  == 5'b11001)  ?  alu_rd_output : // JMP
+                  (is_control_insn == 1'b1 && i_cur_insn[15:12]  == 4'b1111)  ?  alu_rd_output : // TRAP
+                  (i_cur_insn[15:12]  == 4'b1000) ?  alu_rd_output :  // RTI
+                  (is_control_insn == 1'b1 && i_cur_insn[15:11] == 5'b01000 ) ?  alu_rd_output : // JSRR
+                  (is_control_insn == 1'b1 && i_cur_insn[15:11] == 5'b11000) ?  alu_rd_output : // JMPR
+                                                                                 pc_adder_out;        // Default 
+
+   lc4_decoder decoder( .insn(i_cur_insn),               // instruction input  wire [15:0] 
+                        .r1sel(rssel),              // rs
+                        .r1re(rsre),               // does this instruction read from rs?
+                        .r2sel(rtsel),              // rt
+                        .r2re(rtre),               // does this instruction read from rt?
+                        .wsel(rdsel),               // rd
+                        .regfile_we(regfile_we),         // does this instruction write to rd?
+                        .nzp_we(nzp_we),             // does this instruction write the NZP bits?
+                        .select_pc_plus_one(select_pc_plus_one), // write PC+1 to the regfile?
+                        .is_load(is_load),            // is this a load instruction?
+                        .is_store(is_store),           // is this a store instruction?
+                        .is_branch(is_branch),          // is this a branch instruction?
+                        .is_control_insn(is_control_insn)     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+                     );
+
+   lc4_regfile #(16) regfile( .clk(clk),
+                              .gwe(gwe),
+                              .rst(rst),
+                              .i_rs(rssel),      // rs selector
+                              .o_rs_data(regfile_rs_output), // rs contents
+                              .i_rt(rtsel),      // rt selector
+                              .o_rt_data(regfile_rt_output), // rt contents
+                              .i_rd(rdsel),      // rd selector
+                              .i_wdata(regfile_rd_input) ,// data to write
+                              .i_rd_we(regfile_we)    // write enable
+                            );
+
+
+
+   assign regfile_rd_input = (is_load == 1'b1) ? i_cur_dmem_data : 
+                             (select_pc_plus_one == 1'b1)  ? pc_adder_out : 
+                                                             alu_rd_output;
+
+   assign alu_rs_input = regfile_rs_output;
+
+   assign alu_rt_input = regfile_rt_output;
+
+
+   lc4_alu alu(.i_insn(i_cur_insn),
+               .i_pc(pc),
+               .i_r1data(alu_rs_input),
+               .i_r2data(alu_rt_input),
+               .o_result(alu_rd_output));
+
    
+   wire [2:0] nzp_in;
+   assign  nzp_in =  (regfile_rd_input[15] == 1'b1) ? 3'b100 :       // N
+                     (regfile_rd_input == 16'b0)    ? 3'b010 :       // Z
+                     (regfile_rd_input[15] == 1'b0) ? 3'b001 :       // P
+                                                      3'b000;
+
+
+   wire[2:0] nzp_out;
+
+
+   Nbit_reg #(3) nzp_reg (.in(nzp_in), .out(nzp_out), .clk(clk), .we(nzp_we), .gwe(gwe), .rst(rst));
+
    /* DO NOT MODIFY THIS CODE */
    // Always execute one instruction each cycle (test_stall will get used in your pipelined processor)
    assign test_stall = 2'b0; 

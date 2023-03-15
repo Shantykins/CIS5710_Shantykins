@@ -1,0 +1,1 @@
+TEST_CASE=test_alu make test > test_alu_out.txt && TEST_CASE=test_mem make test > test_mem.text && TEST_CASE=test_br make test > test_br.txt 

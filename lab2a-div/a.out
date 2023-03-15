@@ -1,0 +1,1455 @@
+#! /home1/c/cis5710/tools/bin/vvp
+:ivl_version "11.0 (stable)" "(v11_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/home1/c/cis5710/tools/lib/ivl/system.vpi";
+:vpi_module "/home1/c/cis5710/tools/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/home1/c/cis5710/tools/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/home1/c/cis5710/tools/lib/ivl/v2005_math.vpi";
+:vpi_module "/home1/c/cis5710/tools/lib/ivl/va_math.vpi";
+S_0x24fcc90 .scope module, "test_divider" "test_divider" 2 35;
+ .timescale -9 -12;
+v0x2538510_0 .var/i "__ignore", 31 0;
+v0x2538610_0 .var/i "allTests", 31 0;
+v0x25386f0_0 .var/i "divTests", 31 0;
+v0x25387b0_0 .var/i "errors", 31 0;
+v0x2538890_0 .var "exp_dividend", 15 0;
+v0x25389c0_0 .var "exp_quotient", 15 0;
+v0x2538aa0_0 .var "exp_remainder", 15 0;
+v0x2538b80_0 .var "i_dividend", 15 0;
+v0x2538c90_0 .var "i_divisor", 15 0;
+v0x2538d50_0 .var "i_quotient", 15 0;
+v0x2538e10_0 .var "i_remainder", 15 0;
+v0x2538eb0_0 .var/i "input_file", 31 0;
+v0x2538f70_0 .net "o_1iter_dividend", 15 0, L_0x255f190;  1 drivers
+v0x2539030_0 .net "o_1iter_quotient", 15 0, L_0x255eaf0;  1 drivers
+v0x25390d0_0 .net "o_1iter_remainder", 15 0, L_0x255ef30;  1 drivers
+v0x2539170_0 .net "o_div_quotient", 15 0, L_0x255da50;  1 drivers
+v0x2539210_0 .net "o_div_remainder", 15 0, L_0x255dcd0;  1 drivers
+v0x25393c0_0 .var/i "randomSeed", 31 0;
+S_0x24fce20 .scope module, "div" "lc4_divider" 2 62, 3 9 0, S_0x24fcc90;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /OUTPUT 16 "o_remainder";
+    .port_info 3 /OUTPUT 16 "o_quotient";
+L_0x255d500 .functor BUFZ 16, v0x2538b80_0, C4<0000000000000000>, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1f98 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x25348f0_0 .net/2u *"_ivl_0", 15 0, L_0x7f9a342b1f98;  1 drivers
+v0x25349f0_0 .net *"_ivl_11", 0 0, L_0x255dbe0;  1 drivers
+L_0x7f9a342b2070 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2534ab0_0 .net/2u *"_ivl_13", 15 0, L_0x7f9a342b2070;  1 drivers
+v0x2534ba0_0 .net *"_ivl_2", 0 0, L_0x255d960;  1 drivers
+L_0x7f9a342b1fe0 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2534c60_0 .net/2u *"_ivl_4", 15 0, L_0x7f9a342b1fe0;  1 drivers
+L_0x7f9a342b2028 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2534d40_0 .net/2u *"_ivl_9", 15 0, L_0x7f9a342b2028;  1 drivers
+v0x2534e20_0 .net "i_dividend", 15 0, v0x2538b80_0;  1 drivers
+v0x2534f00_0 .net "i_divisor", 15 0, v0x2538c90_0;  1 drivers
+v0x25351d0_0 .net "o_quotient", 15 0, L_0x255da50;  alias, 1 drivers
+v0x25352b0_0 .net "o_remainder", 15 0, L_0x255dcd0;  alias, 1 drivers
+v0x2535390 .array "tmp_dividend", 0 16;
+v0x2535390_0 .net v0x2535390 0, 15 0, L_0x255d500; 1 drivers
+v0x2535390_1 .net v0x2535390 1, 15 0, L_0x254a5c0; 1 drivers
+v0x2535390_2 .net v0x2535390 2, 15 0, L_0x254b8d0; 1 drivers
+v0x2535390_3 .net v0x2535390 3, 15 0, L_0x254cd00; 1 drivers
+v0x2535390_4 .net v0x2535390 4, 15 0, L_0x254e0b0; 1 drivers
+v0x2535390_5 .net v0x2535390 5, 15 0, L_0x254fa80; 1 drivers
+v0x2535390_6 .net v0x2535390 6, 15 0, L_0x2550e30; 1 drivers
+v0x2535390_7 .net v0x2535390 7, 15 0, L_0x25521e0; 1 drivers
+v0x2535390_8 .net v0x2535390 8, 15 0, L_0x2553550; 1 drivers
+v0x2535390_9 .net v0x2535390 9, 15 0, L_0x2554860; 1 drivers
+v0x2535390_10 .net v0x2535390 10, 15 0, L_0x2555ef0; 1 drivers
+v0x2535390_11 .net v0x2535390 11, 15 0, L_0x2557200; 1 drivers
+v0x2535390_12 .net v0x2535390 12, 15 0, L_0x2558510; 1 drivers
+v0x2535390_13 .net v0x2535390 13, 15 0, L_0x2559820; 1 drivers
+v0x2535390_14 .net v0x2535390 14, 15 0, L_0x255ab30; 1 drivers
+v0x2535390_15 .net v0x2535390 15, 15 0, L_0x255be40; 1 drivers
+v0x2535390_16 .net v0x2535390 16, 15 0, L_0x255d7d0; 1 drivers
+L_0x7f9a342b2100 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x25358b0 .array "tmp_quotient", 0 16;
+v0x25358b0_0 .net v0x25358b0 0, 15 0, L_0x7f9a342b2100; 1 drivers
+v0x25358b0_1 .net v0x25358b0 1, 15 0, L_0x254a060; 1 drivers
+v0x25358b0_2 .net v0x25358b0 2, 15 0, L_0x254b2e0; 1 drivers
+v0x25358b0_3 .net v0x25358b0 3, 15 0, L_0x254c6a0; 1 drivers
+v0x25358b0_4 .net v0x25358b0 4, 15 0, L_0x254da50; 1 drivers
+v0x25358b0_5 .net v0x25358b0 5, 15 0, L_0x254f010; 1 drivers
+v0x25358b0_6 .net v0x25358b0 6, 15 0, L_0x25507d0; 1 drivers
+v0x25358b0_7 .net v0x25358b0 7, 15 0, L_0x2551b80; 1 drivers
+v0x25358b0_8 .net v0x25358b0 8, 15 0, L_0x2552ef0; 1 drivers
+v0x25358b0_9 .net v0x25358b0 9, 15 0, L_0x2554260; 1 drivers
+v0x25358b0_10 .net v0x25358b0 10, 15 0, L_0x2555890; 1 drivers
+v0x25358b0_11 .net v0x25358b0 11, 15 0, L_0x2556c00; 1 drivers
+v0x25358b0_12 .net v0x25358b0 12, 15 0, L_0x2557f10; 1 drivers
+v0x25358b0_13 .net v0x25358b0 13, 15 0, L_0x2559220; 1 drivers
+v0x25358b0_14 .net v0x25358b0 14, 15 0, L_0x255a530; 1 drivers
+v0x25358b0_15 .net v0x25358b0 15, 15 0, L_0x255b840; 1 drivers
+v0x25358b0_16 .net v0x25358b0 16, 15 0, L_0x255d130; 1 drivers
+L_0x7f9a342b20b8 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2535e90 .array "tmp_remainder", 0 16;
+v0x2535e90_0 .net v0x2535e90 0, 15 0, L_0x7f9a342b20b8; 1 drivers
+v0x2535e90_1 .net v0x2535e90 1, 15 0, L_0x254a3b0; 1 drivers
+v0x2535e90_2 .net v0x2535e90 2, 15 0, L_0x254b6c0; 1 drivers
+v0x2535e90_3 .net v0x2535e90 3, 15 0, L_0x254caf0; 1 drivers
+v0x2535e90_4 .net v0x2535e90 4, 15 0, L_0x254dea0; 1 drivers
+v0x2535e90_5 .net v0x2535e90 5, 15 0, L_0x254f870; 1 drivers
+v0x2535e90_6 .net v0x2535e90 6, 15 0, L_0x2550c20; 1 drivers
+v0x2535e90_7 .net v0x2535e90 7, 15 0, L_0x2551fd0; 1 drivers
+v0x2535e90_8 .net v0x2535e90 8, 15 0, L_0x2553340; 1 drivers
+v0x2535e90_9 .net v0x2535e90 9, 15 0, L_0x2554650; 1 drivers
+v0x2535e90_10 .net v0x2535e90 10, 15 0, L_0x2555ce0; 1 drivers
+v0x2535e90_11 .net v0x2535e90 11, 15 0, L_0x2556ff0; 1 drivers
+v0x2535e90_12 .net v0x2535e90 12, 15 0, L_0x2558300; 1 drivers
+v0x2535e90_13 .net v0x2535e90 13, 15 0, L_0x2559610; 1 drivers
+v0x2535e90_14 .net v0x2535e90 14, 15 0, L_0x255a920; 1 drivers
+v0x2535e90_15 .net v0x2535e90 15, 15 0, L_0x255bc30; 1 drivers
+v0x2535e90_16 .net v0x2535e90 16, 15 0, L_0x255d570; 1 drivers
+L_0x255d960 .cmp/eq 16, v0x2538c90_0, L_0x7f9a342b1f98;
+L_0x255da50 .functor MUXZ 16, L_0x255d130, L_0x7f9a342b1fe0, L_0x255d960, C4<>;
+L_0x255dbe0 .cmp/eq 16, v0x2538c90_0, L_0x7f9a342b2028;
+L_0x255dcd0 .functor MUXZ 16, L_0x255d570, L_0x7f9a342b2070, L_0x255dbe0, C4<>;
+S_0x24edfd0 .scope generate, "genblk1[0]" "genblk1[0]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x24ddc90 .param/l "i" 0 3 30, +C4<00>;
+S_0x24ed250 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x24edfd0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b00a8 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x24c8510 .functor AND 16, L_0x2549760, L_0x7f9a342b00a8, C4<1111111111111111>, C4<1111111111111111>;
+L_0x24cf760 .functor OR 16, L_0x2539520, L_0x24c8510, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0180 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x24d69b0 .functor OR 16, L_0x2549e80, L_0x7f9a342b0180, C4<0000000000000000>, C4<0000000000000000>;
+v0x24f3920_0 .net *"_ivl_0", 15 0, L_0x2539520;  1 drivers
+L_0x7f9a342b0060 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x24f39c0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0060;  1 drivers
+v0x2514b80_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b00a8;  1 drivers
+v0x2514c40_0 .net *"_ivl_14", 15 0, L_0x24c8510;  1 drivers
+v0x2514d20_0 .net *"_ivl_18", 0 0, L_0x25499e0;  1 drivers
+v0x2514e30_0 .net *"_ivl_2", 14 0, L_0x2539480;  1 drivers
+v0x2514f10_0 .net *"_ivl_20", 15 0, L_0x2549c00;  1 drivers
+v0x2514ff0_0 .net *"_ivl_22", 14 0, L_0x2549ad0;  1 drivers
+L_0x7f9a342b00f0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25150d0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b00f0;  1 drivers
+v0x25151b0_0 .net *"_ivl_26", 15 0, L_0x2549e80;  1 drivers
+v0x2515290_0 .net *"_ivl_28", 14 0, L_0x2549d40;  1 drivers
+L_0x7f9a342b0138 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2515370_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0138;  1 drivers
+v0x2515450_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0180;  1 drivers
+v0x2515530_0 .net *"_ivl_34", 15 0, L_0x24d69b0;  1 drivers
+v0x2515610_0 .net *"_ivl_38", 0 0, L_0x254a200;  1 drivers
+L_0x7f9a342b0018 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25156d0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0018;  1 drivers
+v0x25157b0_0 .net *"_ivl_40", 15 0, L_0x254a2a0;  1 drivers
+v0x2515890_0 .net *"_ivl_46", 14 0, L_0x254a4a0;  1 drivers
+L_0x7f9a342b01c8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2515970_0 .net *"_ivl_48", 0 0, L_0x7f9a342b01c8;  1 drivers
+v0x2515a50_0 .net *"_ivl_6", 15 0, L_0x2549760;  1 drivers
+v0x2515b30_0 .net *"_ivl_8", 0 0, L_0x2539660;  1 drivers
+v0x2515c10_0 .net "i_dividend", 15 0, L_0x255d500;  alias, 1 drivers
+v0x2515cf0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2515dd0_0 .net "i_quotient", 15 0, L_0x7f9a342b2100;  alias, 1 drivers
+v0x2515eb0_0 .net "i_remainder", 15 0, L_0x7f9a342b20b8;  alias, 1 drivers
+v0x2515f90_0 .net "o_dividend", 15 0, L_0x254a5c0;  alias, 1 drivers
+v0x2516070_0 .net "o_quotient", 15 0, L_0x254a060;  alias, 1 drivers
+v0x2516150_0 .net "o_remainder", 15 0, L_0x254a3b0;  alias, 1 drivers
+v0x2516230_0 .net "remainder_tmp", 15 0, L_0x24cf760;  1 drivers
+L_0x2539480 .part L_0x7f9a342b20b8, 0, 15;
+L_0x2539520 .concat [ 1 15 0 0], L_0x7f9a342b0018, L_0x2539480;
+L_0x2539660 .part L_0x255d500, 15, 1;
+L_0x2549760 .concat [ 1 15 0 0], L_0x2539660, L_0x7f9a342b0060;
+L_0x25499e0 .cmp/gt 16, v0x2538c90_0, L_0x24cf760;
+L_0x2549ad0 .part L_0x7f9a342b2100, 0, 15;
+L_0x2549c00 .concat [ 1 15 0 0], L_0x7f9a342b00f0, L_0x2549ad0;
+L_0x2549d40 .part L_0x7f9a342b2100, 0, 15;
+L_0x2549e80 .concat [ 1 15 0 0], L_0x7f9a342b0138, L_0x2549d40;
+L_0x254a060 .functor MUXZ 16, L_0x24d69b0, L_0x2549c00, L_0x25499e0, C4<>;
+L_0x254a200 .cmp/gt 16, v0x2538c90_0, L_0x24cf760;
+L_0x254a2a0 .arith/sub 16, L_0x24cf760, v0x2538c90_0;
+L_0x254a3b0 .functor MUXZ 16, L_0x254a2a0, L_0x24cf760, L_0x254a200, C4<>;
+L_0x254a4a0 .part L_0x255d500, 0, 15;
+L_0x254a5c0 .concat [ 1 15 0 0], L_0x7f9a342b01c8, L_0x254a4a0;
+S_0x25163f0 .scope generate, "genblk1[1]" "genblk1[1]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x25165c0 .param/l "i" 0 3 30, +C4<01>;
+S_0x2516680 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x25163f0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b02a0 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254a340 .functor AND 16, L_0x254aae0, L_0x7f9a342b02a0, C4<1111111111111111>, C4<1111111111111111>;
+L_0x24ddc00 .functor OR 16, L_0x254a830, L_0x254a340, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0378 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x25008d0 .functor OR 16, L_0x254b100, L_0x7f9a342b0378, C4<0000000000000000>, C4<0000000000000000>;
+v0x2516860_0 .net *"_ivl_0", 15 0, L_0x254a830;  1 drivers
+L_0x7f9a342b0258 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2516960_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0258;  1 drivers
+v0x2516a40_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b02a0;  1 drivers
+v0x2516b00_0 .net *"_ivl_14", 15 0, L_0x254a340;  1 drivers
+v0x2516be0_0 .net *"_ivl_18", 0 0, L_0x254acc0;  1 drivers
+v0x2516cf0_0 .net *"_ivl_2", 14 0, L_0x254a700;  1 drivers
+v0x2516dd0_0 .net *"_ivl_20", 15 0, L_0x254af20;  1 drivers
+v0x2516eb0_0 .net *"_ivl_22", 14 0, L_0x254adb0;  1 drivers
+L_0x7f9a342b02e8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2516f90_0 .net *"_ivl_24", 0 0, L_0x7f9a342b02e8;  1 drivers
+v0x2517070_0 .net *"_ivl_26", 15 0, L_0x254b100;  1 drivers
+v0x2517150_0 .net *"_ivl_28", 14 0, L_0x254b010;  1 drivers
+L_0x7f9a342b0330 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2517230_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0330;  1 drivers
+v0x2517310_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0378;  1 drivers
+v0x25173f0_0 .net *"_ivl_34", 15 0, L_0x25008d0;  1 drivers
+v0x25174d0_0 .net *"_ivl_38", 0 0, L_0x254b480;  1 drivers
+L_0x7f9a342b0210 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2517590_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0210;  1 drivers
+v0x2517670_0 .net *"_ivl_40", 15 0, L_0x254b520;  1 drivers
+v0x2517750_0 .net *"_ivl_46", 14 0, L_0x254b7b0;  1 drivers
+L_0x7f9a342b03c0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2517830_0 .net *"_ivl_48", 0 0, L_0x7f9a342b03c0;  1 drivers
+v0x2517910_0 .net *"_ivl_6", 15 0, L_0x254aae0;  1 drivers
+v0x25179f0_0 .net *"_ivl_8", 0 0, L_0x254a920;  1 drivers
+v0x2517ad0_0 .net "i_dividend", 15 0, L_0x254a5c0;  alias, 1 drivers
+v0x2517b90_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2517c30_0 .net "i_quotient", 15 0, L_0x254a060;  alias, 1 drivers
+v0x2517cd0_0 .net "i_remainder", 15 0, L_0x254a3b0;  alias, 1 drivers
+v0x2517d70_0 .net "o_dividend", 15 0, L_0x254b8d0;  alias, 1 drivers
+v0x2517e30_0 .net "o_quotient", 15 0, L_0x254b2e0;  alias, 1 drivers
+v0x2517f10_0 .net "o_remainder", 15 0, L_0x254b6c0;  alias, 1 drivers
+v0x2517ff0_0 .net "remainder_tmp", 15 0, L_0x24ddc00;  1 drivers
+L_0x254a700 .part L_0x254a3b0, 0, 15;
+L_0x254a830 .concat [ 1 15 0 0], L_0x7f9a342b0210, L_0x254a700;
+L_0x254a920 .part L_0x254a5c0, 15, 1;
+L_0x254aae0 .concat [ 1 15 0 0], L_0x254a920, L_0x7f9a342b0258;
+L_0x254acc0 .cmp/gt 16, v0x2538c90_0, L_0x24ddc00;
+L_0x254adb0 .part L_0x254a060, 0, 15;
+L_0x254af20 .concat [ 1 15 0 0], L_0x7f9a342b02e8, L_0x254adb0;
+L_0x254b010 .part L_0x254a060, 0, 15;
+L_0x254b100 .concat [ 1 15 0 0], L_0x7f9a342b0330, L_0x254b010;
+L_0x254b2e0 .functor MUXZ 16, L_0x25008d0, L_0x254af20, L_0x254acc0, C4<>;
+L_0x254b480 .cmp/gt 16, v0x2538c90_0, L_0x24ddc00;
+L_0x254b520 .arith/sub 16, L_0x24ddc00, v0x2538c90_0;
+L_0x254b6c0 .functor MUXZ 16, L_0x254b520, L_0x24ddc00, L_0x254b480, C4<>;
+L_0x254b7b0 .part L_0x254a5c0, 0, 15;
+L_0x254b8d0 .concat [ 1 15 0 0], L_0x7f9a342b03c0, L_0x254b7b0;
+S_0x25181b0 .scope generate, "genblk1[2]" "genblk1[2]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x2518390 .param/l "i" 0 3 30, +C4<010>;
+S_0x2518450 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x25181b0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0498 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254b650 .functor AND 16, L_0x254bd60, L_0x7f9a342b0498, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2500940 .functor OR 16, L_0x254bb40, L_0x254b650, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0570 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254c590 .functor OR 16, L_0x254c450, L_0x7f9a342b0570, C4<0000000000000000>, C4<0000000000000000>;
+v0x25186e0_0 .net *"_ivl_0", 15 0, L_0x254bb40;  1 drivers
+L_0x7f9a342b0450 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x25187e0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0450;  1 drivers
+v0x25188c0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0498;  1 drivers
+v0x25189b0_0 .net *"_ivl_14", 15 0, L_0x254b650;  1 drivers
+v0x2518a90_0 .net *"_ivl_18", 0 0, L_0x254c0a0;  1 drivers
+v0x2518ba0_0 .net *"_ivl_2", 14 0, L_0x254ba10;  1 drivers
+v0x2518c80_0 .net *"_ivl_20", 15 0, L_0x254c270;  1 drivers
+v0x2518d60_0 .net *"_ivl_22", 14 0, L_0x254c190;  1 drivers
+L_0x7f9a342b04e0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2518e40_0 .net *"_ivl_24", 0 0, L_0x7f9a342b04e0;  1 drivers
+v0x2518f20_0 .net *"_ivl_26", 15 0, L_0x254c450;  1 drivers
+v0x2519000_0 .net *"_ivl_28", 14 0, L_0x254c360;  1 drivers
+L_0x7f9a342b0528 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25190e0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0528;  1 drivers
+v0x25191c0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0570;  1 drivers
+v0x25192a0_0 .net *"_ivl_34", 15 0, L_0x254c590;  1 drivers
+v0x2519380_0 .net *"_ivl_38", 0 0, L_0x254c840;  1 drivers
+L_0x7f9a342b0408 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2519440_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0408;  1 drivers
+v0x2519520_0 .net *"_ivl_40", 15 0, L_0x254c8e0;  1 drivers
+v0x2519710_0 .net *"_ivl_46", 14 0, L_0x254cbe0;  1 drivers
+L_0x7f9a342b05b8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25197f0_0 .net *"_ivl_48", 0 0, L_0x7f9a342b05b8;  1 drivers
+v0x25198d0_0 .net *"_ivl_6", 15 0, L_0x254bd60;  1 drivers
+v0x25199b0_0 .net *"_ivl_8", 0 0, L_0x254bc30;  1 drivers
+v0x2519a90_0 .net "i_dividend", 15 0, L_0x254b8d0;  alias, 1 drivers
+v0x2519b50_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2519bf0_0 .net "i_quotient", 15 0, L_0x254b2e0;  alias, 1 drivers
+v0x2519cb0_0 .net "i_remainder", 15 0, L_0x254b6c0;  alias, 1 drivers
+v0x2519d80_0 .net "o_dividend", 15 0, L_0x254cd00;  alias, 1 drivers
+v0x2519e40_0 .net "o_quotient", 15 0, L_0x254c6a0;  alias, 1 drivers
+v0x2519f20_0 .net "o_remainder", 15 0, L_0x254caf0;  alias, 1 drivers
+v0x251a000_0 .net "remainder_tmp", 15 0, L_0x2500940;  1 drivers
+L_0x254ba10 .part L_0x254b6c0, 0, 15;
+L_0x254bb40 .concat [ 1 15 0 0], L_0x7f9a342b0408, L_0x254ba10;
+L_0x254bc30 .part L_0x254b8d0, 15, 1;
+L_0x254bd60 .concat [ 1 15 0 0], L_0x254bc30, L_0x7f9a342b0450;
+L_0x254c0a0 .cmp/gt 16, v0x2538c90_0, L_0x2500940;
+L_0x254c190 .part L_0x254b2e0, 0, 15;
+L_0x254c270 .concat [ 1 15 0 0], L_0x7f9a342b04e0, L_0x254c190;
+L_0x254c360 .part L_0x254b2e0, 0, 15;
+L_0x254c450 .concat [ 1 15 0 0], L_0x7f9a342b0528, L_0x254c360;
+L_0x254c6a0 .functor MUXZ 16, L_0x254c590, L_0x254c270, L_0x254c0a0, C4<>;
+L_0x254c840 .cmp/gt 16, v0x2538c90_0, L_0x2500940;
+L_0x254c8e0 .arith/sub 16, L_0x2500940, v0x2538c90_0;
+L_0x254caf0 .functor MUXZ 16, L_0x254c8e0, L_0x2500940, L_0x254c840, C4<>;
+L_0x254cbe0 .part L_0x254b8d0, 0, 15;
+L_0x254cd00 .concat [ 1 15 0 0], L_0x7f9a342b05b8, L_0x254cbe0;
+S_0x251a1c0 .scope generate, "genblk1[3]" "genblk1[3]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x251a3c0 .param/l "i" 0 3 30, +C4<011>;
+S_0x251a4a0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x251a1c0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0690 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254ca80 .functor AND 16, L_0x254d190, L_0x7f9a342b0690, C4<1111111111111111>, C4<1111111111111111>;
+L_0x254c980 .functor OR 16, L_0x254cf70, L_0x254ca80, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0768 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254d940 .functor OR 16, L_0x254d800, L_0x7f9a342b0768, C4<0000000000000000>, C4<0000000000000000>;
+v0x251a730_0 .net *"_ivl_0", 15 0, L_0x254cf70;  1 drivers
+L_0x7f9a342b0648 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x251a830_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0648;  1 drivers
+v0x251a910_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0690;  1 drivers
+v0x251aa00_0 .net *"_ivl_14", 15 0, L_0x254ca80;  1 drivers
+v0x251aae0_0 .net *"_ivl_18", 0 0, L_0x254d3c0;  1 drivers
+v0x251abf0_0 .net *"_ivl_2", 14 0, L_0x254ce40;  1 drivers
+v0x251acd0_0 .net *"_ivl_20", 15 0, L_0x254d620;  1 drivers
+v0x251adb0_0 .net *"_ivl_22", 14 0, L_0x254d4b0;  1 drivers
+L_0x7f9a342b06d8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251ae90_0 .net *"_ivl_24", 0 0, L_0x7f9a342b06d8;  1 drivers
+v0x251af70_0 .net *"_ivl_26", 15 0, L_0x254d800;  1 drivers
+v0x251b050_0 .net *"_ivl_28", 14 0, L_0x254d710;  1 drivers
+L_0x7f9a342b0720 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251b130_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0720;  1 drivers
+v0x251b210_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0768;  1 drivers
+v0x251b2f0_0 .net *"_ivl_34", 15 0, L_0x254d940;  1 drivers
+v0x251b3d0_0 .net *"_ivl_38", 0 0, L_0x254dbf0;  1 drivers
+L_0x7f9a342b0600 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251b490_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0600;  1 drivers
+v0x251b570_0 .net *"_ivl_40", 15 0, L_0x254dc90;  1 drivers
+v0x251b760_0 .net *"_ivl_46", 14 0, L_0x254df90;  1 drivers
+L_0x7f9a342b07b0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251b840_0 .net *"_ivl_48", 0 0, L_0x7f9a342b07b0;  1 drivers
+v0x251b920_0 .net *"_ivl_6", 15 0, L_0x254d190;  1 drivers
+v0x251ba00_0 .net *"_ivl_8", 0 0, L_0x254d060;  1 drivers
+v0x251bae0_0 .net "i_dividend", 15 0, L_0x254cd00;  alias, 1 drivers
+v0x251bba0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x251bc40_0 .net "i_quotient", 15 0, L_0x254c6a0;  alias, 1 drivers
+v0x251bd30_0 .net "i_remainder", 15 0, L_0x254caf0;  alias, 1 drivers
+v0x251be00_0 .net "o_dividend", 15 0, L_0x254e0b0;  alias, 1 drivers
+v0x251bec0_0 .net "o_quotient", 15 0, L_0x254da50;  alias, 1 drivers
+v0x251bfa0_0 .net "o_remainder", 15 0, L_0x254dea0;  alias, 1 drivers
+v0x251c080_0 .net "remainder_tmp", 15 0, L_0x254c980;  1 drivers
+L_0x254ce40 .part L_0x254caf0, 0, 15;
+L_0x254cf70 .concat [ 1 15 0 0], L_0x7f9a342b0600, L_0x254ce40;
+L_0x254d060 .part L_0x254cd00, 15, 1;
+L_0x254d190 .concat [ 1 15 0 0], L_0x254d060, L_0x7f9a342b0648;
+L_0x254d3c0 .cmp/gt 16, v0x2538c90_0, L_0x254c980;
+L_0x254d4b0 .part L_0x254c6a0, 0, 15;
+L_0x254d620 .concat [ 1 15 0 0], L_0x7f9a342b06d8, L_0x254d4b0;
+L_0x254d710 .part L_0x254c6a0, 0, 15;
+L_0x254d800 .concat [ 1 15 0 0], L_0x7f9a342b0720, L_0x254d710;
+L_0x254da50 .functor MUXZ 16, L_0x254d940, L_0x254d620, L_0x254d3c0, C4<>;
+L_0x254dbf0 .cmp/gt 16, v0x2538c90_0, L_0x254c980;
+L_0x254dc90 .arith/sub 16, L_0x254c980, v0x2538c90_0;
+L_0x254dea0 .functor MUXZ 16, L_0x254dc90, L_0x254c980, L_0x254dbf0, C4<>;
+L_0x254df90 .part L_0x254cd00, 0, 15;
+L_0x254e0b0 .concat [ 1 15 0 0], L_0x7f9a342b07b0, L_0x254df90;
+S_0x251c240 .scope generate, "genblk1[4]" "genblk1[4]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x251c440 .param/l "i" 0 3 30, +C4<0100>;
+S_0x251c520 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x251c240;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0888 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254de30 .functor AND 16, L_0x254e540, L_0x7f9a342b0888, C4<1111111111111111>, C4<1111111111111111>;
+L_0x254dd30 .functor OR 16, L_0x254e320, L_0x254de30, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0960 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254ef00 .functor OR 16, L_0x254edc0, L_0x7f9a342b0960, C4<0000000000000000>, C4<0000000000000000>;
+v0x251c7b0_0 .net *"_ivl_0", 15 0, L_0x254e320;  1 drivers
+L_0x7f9a342b0840 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x251c8b0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0840;  1 drivers
+v0x251c990_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0888;  1 drivers
+v0x251ca50_0 .net *"_ivl_14", 15 0, L_0x254de30;  1 drivers
+v0x251cb30_0 .net *"_ivl_18", 0 0, L_0x254e770;  1 drivers
+v0x251cc40_0 .net *"_ivl_2", 14 0, L_0x254e1f0;  1 drivers
+v0x251cd20_0 .net *"_ivl_20", 15 0, L_0x254e9d0;  1 drivers
+v0x251ce00_0 .net *"_ivl_22", 14 0, L_0x254e860;  1 drivers
+L_0x7f9a342b08d0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251cee0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b08d0;  1 drivers
+v0x251cfc0_0 .net *"_ivl_26", 15 0, L_0x254edc0;  1 drivers
+v0x251d0a0_0 .net *"_ivl_28", 14 0, L_0x254eac0;  1 drivers
+L_0x7f9a342b0918 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251d180_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0918;  1 drivers
+v0x251d260_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0960;  1 drivers
+v0x251d340_0 .net *"_ivl_34", 15 0, L_0x254ef00;  1 drivers
+v0x251d420_0 .net *"_ivl_38", 0 0, L_0x254f1b0;  1 drivers
+L_0x7f9a342b07f8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251d4e0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b07f8;  1 drivers
+v0x251d5c0_0 .net *"_ivl_40", 15 0, L_0x254f660;  1 drivers
+v0x251d7b0_0 .net *"_ivl_46", 14 0, L_0x254f960;  1 drivers
+L_0x7f9a342b09a8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251d890_0 .net *"_ivl_48", 0 0, L_0x7f9a342b09a8;  1 drivers
+v0x251d970_0 .net *"_ivl_6", 15 0, L_0x254e540;  1 drivers
+v0x251da50_0 .net *"_ivl_8", 0 0, L_0x254e410;  1 drivers
+v0x251db30_0 .net "i_dividend", 15 0, L_0x254e0b0;  alias, 1 drivers
+v0x251dbf0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x251dc90_0 .net "i_quotient", 15 0, L_0x254da50;  alias, 1 drivers
+v0x251dd80_0 .net "i_remainder", 15 0, L_0x254dea0;  alias, 1 drivers
+v0x251de50_0 .net "o_dividend", 15 0, L_0x254fa80;  alias, 1 drivers
+v0x251df10_0 .net "o_quotient", 15 0, L_0x254f010;  alias, 1 drivers
+v0x251dff0_0 .net "o_remainder", 15 0, L_0x254f870;  alias, 1 drivers
+v0x251e0d0_0 .net "remainder_tmp", 15 0, L_0x254dd30;  1 drivers
+L_0x254e1f0 .part L_0x254dea0, 0, 15;
+L_0x254e320 .concat [ 1 15 0 0], L_0x7f9a342b07f8, L_0x254e1f0;
+L_0x254e410 .part L_0x254e0b0, 15, 1;
+L_0x254e540 .concat [ 1 15 0 0], L_0x254e410, L_0x7f9a342b0840;
+L_0x254e770 .cmp/gt 16, v0x2538c90_0, L_0x254dd30;
+L_0x254e860 .part L_0x254da50, 0, 15;
+L_0x254e9d0 .concat [ 1 15 0 0], L_0x7f9a342b08d0, L_0x254e860;
+L_0x254eac0 .part L_0x254da50, 0, 15;
+L_0x254edc0 .concat [ 1 15 0 0], L_0x7f9a342b0918, L_0x254eac0;
+L_0x254f010 .functor MUXZ 16, L_0x254ef00, L_0x254e9d0, L_0x254e770, C4<>;
+L_0x254f1b0 .cmp/gt 16, v0x2538c90_0, L_0x254dd30;
+L_0x254f660 .arith/sub 16, L_0x254dd30, v0x2538c90_0;
+L_0x254f870 .functor MUXZ 16, L_0x254f660, L_0x254dd30, L_0x254f1b0, C4<>;
+L_0x254f960 .part L_0x254e0b0, 0, 15;
+L_0x254fa80 .concat [ 1 15 0 0], L_0x7f9a342b09a8, L_0x254f960;
+S_0x251e290 .scope generate, "genblk1[5]" "genblk1[5]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x251cbd0 .param/l "i" 0 3 30, +C4<0101>;
+S_0x251e4d0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x251e290;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0a80 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x254f800 .functor AND 16, L_0x254ff10, L_0x7f9a342b0a80, C4<1111111111111111>, C4<1111111111111111>;
+L_0x254f700 .functor OR 16, L_0x254fcf0, L_0x254f800, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0b58 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x25506c0 .functor OR 16, L_0x2550580, L_0x7f9a342b0b58, C4<0000000000000000>, C4<0000000000000000>;
+v0x251e760_0 .net *"_ivl_0", 15 0, L_0x254fcf0;  1 drivers
+L_0x7f9a342b0a38 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x251e860_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0a38;  1 drivers
+v0x251e940_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0a80;  1 drivers
+v0x251ea30_0 .net *"_ivl_14", 15 0, L_0x254f800;  1 drivers
+v0x251eb10_0 .net *"_ivl_18", 0 0, L_0x2550140;  1 drivers
+v0x251ec20_0 .net *"_ivl_2", 14 0, L_0x254fbc0;  1 drivers
+v0x251ed00_0 .net *"_ivl_20", 15 0, L_0x25503a0;  1 drivers
+v0x251ede0_0 .net *"_ivl_22", 14 0, L_0x2550230;  1 drivers
+L_0x7f9a342b0ac8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251eec0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b0ac8;  1 drivers
+v0x251f030_0 .net *"_ivl_26", 15 0, L_0x2550580;  1 drivers
+v0x251f110_0 .net *"_ivl_28", 14 0, L_0x2550490;  1 drivers
+L_0x7f9a342b0b10 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251f1f0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0b10;  1 drivers
+v0x251f2d0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0b58;  1 drivers
+v0x251f3b0_0 .net *"_ivl_34", 15 0, L_0x25506c0;  1 drivers
+v0x251f490_0 .net *"_ivl_38", 0 0, L_0x2550970;  1 drivers
+L_0x7f9a342b09f0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251f550_0 .net *"_ivl_4", 0 0, L_0x7f9a342b09f0;  1 drivers
+v0x251f630_0 .net *"_ivl_40", 15 0, L_0x2550a10;  1 drivers
+v0x251f820_0 .net *"_ivl_46", 14 0, L_0x2550d10;  1 drivers
+L_0x7f9a342b0ba0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x251f900_0 .net *"_ivl_48", 0 0, L_0x7f9a342b0ba0;  1 drivers
+v0x251f9e0_0 .net *"_ivl_6", 15 0, L_0x254ff10;  1 drivers
+v0x251fac0_0 .net *"_ivl_8", 0 0, L_0x254fde0;  1 drivers
+v0x251fba0_0 .net "i_dividend", 15 0, L_0x254fa80;  alias, 1 drivers
+v0x251fc60_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x251fd00_0 .net "i_quotient", 15 0, L_0x254f010;  alias, 1 drivers
+v0x251fdf0_0 .net "i_remainder", 15 0, L_0x254f870;  alias, 1 drivers
+v0x251fec0_0 .net "o_dividend", 15 0, L_0x2550e30;  alias, 1 drivers
+v0x251ff80_0 .net "o_quotient", 15 0, L_0x25507d0;  alias, 1 drivers
+v0x2520060_0 .net "o_remainder", 15 0, L_0x2550c20;  alias, 1 drivers
+v0x2520140_0 .net "remainder_tmp", 15 0, L_0x254f700;  1 drivers
+L_0x254fbc0 .part L_0x254f870, 0, 15;
+L_0x254fcf0 .concat [ 1 15 0 0], L_0x7f9a342b09f0, L_0x254fbc0;
+L_0x254fde0 .part L_0x254fa80, 15, 1;
+L_0x254ff10 .concat [ 1 15 0 0], L_0x254fde0, L_0x7f9a342b0a38;
+L_0x2550140 .cmp/gt 16, v0x2538c90_0, L_0x254f700;
+L_0x2550230 .part L_0x254f010, 0, 15;
+L_0x25503a0 .concat [ 1 15 0 0], L_0x7f9a342b0ac8, L_0x2550230;
+L_0x2550490 .part L_0x254f010, 0, 15;
+L_0x2550580 .concat [ 1 15 0 0], L_0x7f9a342b0b10, L_0x2550490;
+L_0x25507d0 .functor MUXZ 16, L_0x25506c0, L_0x25503a0, L_0x2550140, C4<>;
+L_0x2550970 .cmp/gt 16, v0x2538c90_0, L_0x254f700;
+L_0x2550a10 .arith/sub 16, L_0x254f700, v0x2538c90_0;
+L_0x2550c20 .functor MUXZ 16, L_0x2550a10, L_0x254f700, L_0x2550970, C4<>;
+L_0x2550d10 .part L_0x254fa80, 0, 15;
+L_0x2550e30 .concat [ 1 15 0 0], L_0x7f9a342b0ba0, L_0x2550d10;
+S_0x2520340 .scope generate, "genblk1[6]" "genblk1[6]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x25204f0 .param/l "i" 0 3 30, +C4<0110>;
+S_0x25205d0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x2520340;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0c78 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2550bb0 .functor AND 16, L_0x25512c0, L_0x7f9a342b0c78, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2550ab0 .functor OR 16, L_0x25510a0, L_0x2550bb0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0d50 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2551a70 .functor OR 16, L_0x2551930, L_0x7f9a342b0d50, C4<0000000000000000>, C4<0000000000000000>;
+v0x2520860_0 .net *"_ivl_0", 15 0, L_0x25510a0;  1 drivers
+L_0x7f9a342b0c30 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2520960_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0c30;  1 drivers
+v0x2520a40_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0c78;  1 drivers
+v0x2520b30_0 .net *"_ivl_14", 15 0, L_0x2550bb0;  1 drivers
+v0x2520c10_0 .net *"_ivl_18", 0 0, L_0x25514f0;  1 drivers
+v0x2520d20_0 .net *"_ivl_2", 14 0, L_0x2550f70;  1 drivers
+v0x2520e00_0 .net *"_ivl_20", 15 0, L_0x2551750;  1 drivers
+v0x2520ee0_0 .net *"_ivl_22", 14 0, L_0x25515e0;  1 drivers
+L_0x7f9a342b0cc0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2520fc0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b0cc0;  1 drivers
+v0x25210a0_0 .net *"_ivl_26", 15 0, L_0x2551930;  1 drivers
+v0x2521180_0 .net *"_ivl_28", 14 0, L_0x2551840;  1 drivers
+L_0x7f9a342b0d08 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2521260_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0d08;  1 drivers
+v0x2521340_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0d50;  1 drivers
+v0x2521420_0 .net *"_ivl_34", 15 0, L_0x2551a70;  1 drivers
+v0x2521500_0 .net *"_ivl_38", 0 0, L_0x2551d20;  1 drivers
+L_0x7f9a342b0be8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25215c0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0be8;  1 drivers
+v0x25216a0_0 .net *"_ivl_40", 15 0, L_0x2551dc0;  1 drivers
+v0x2521890_0 .net *"_ivl_46", 14 0, L_0x25520c0;  1 drivers
+L_0x7f9a342b0d98 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2521970_0 .net *"_ivl_48", 0 0, L_0x7f9a342b0d98;  1 drivers
+v0x2521a50_0 .net *"_ivl_6", 15 0, L_0x25512c0;  1 drivers
+v0x2521b30_0 .net *"_ivl_8", 0 0, L_0x2551190;  1 drivers
+v0x2521c10_0 .net "i_dividend", 15 0, L_0x2550e30;  alias, 1 drivers
+v0x2521cd0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2521d70_0 .net "i_quotient", 15 0, L_0x25507d0;  alias, 1 drivers
+v0x2521e60_0 .net "i_remainder", 15 0, L_0x2550c20;  alias, 1 drivers
+v0x2521f30_0 .net "o_dividend", 15 0, L_0x25521e0;  alias, 1 drivers
+v0x2521ff0_0 .net "o_quotient", 15 0, L_0x2551b80;  alias, 1 drivers
+v0x25220d0_0 .net "o_remainder", 15 0, L_0x2551fd0;  alias, 1 drivers
+v0x25221b0_0 .net "remainder_tmp", 15 0, L_0x2550ab0;  1 drivers
+L_0x2550f70 .part L_0x2550c20, 0, 15;
+L_0x25510a0 .concat [ 1 15 0 0], L_0x7f9a342b0be8, L_0x2550f70;
+L_0x2551190 .part L_0x2550e30, 15, 1;
+L_0x25512c0 .concat [ 1 15 0 0], L_0x2551190, L_0x7f9a342b0c30;
+L_0x25514f0 .cmp/gt 16, v0x2538c90_0, L_0x2550ab0;
+L_0x25515e0 .part L_0x25507d0, 0, 15;
+L_0x2551750 .concat [ 1 15 0 0], L_0x7f9a342b0cc0, L_0x25515e0;
+L_0x2551840 .part L_0x25507d0, 0, 15;
+L_0x2551930 .concat [ 1 15 0 0], L_0x7f9a342b0d08, L_0x2551840;
+L_0x2551b80 .functor MUXZ 16, L_0x2551a70, L_0x2551750, L_0x25514f0, C4<>;
+L_0x2551d20 .cmp/gt 16, v0x2538c90_0, L_0x2550ab0;
+L_0x2551dc0 .arith/sub 16, L_0x2550ab0, v0x2538c90_0;
+L_0x2551fd0 .functor MUXZ 16, L_0x2551dc0, L_0x2550ab0, L_0x2551d20, C4<>;
+L_0x25520c0 .part L_0x2550e30, 0, 15;
+L_0x25521e0 .concat [ 1 15 0 0], L_0x7f9a342b0d98, L_0x25520c0;
+S_0x25223b0 .scope generate, "genblk1[7]" "genblk1[7]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x2522560 .param/l "i" 0 3 30, +C4<0111>;
+S_0x2522640 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x25223b0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b0e70 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2551f60 .functor AND 16, L_0x2552670, L_0x7f9a342b0e70, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2551e60 .functor OR 16, L_0x2552450, L_0x2551f60, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b0f48 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2552de0 .functor OR 16, L_0x2552ca0, L_0x7f9a342b0f48, C4<0000000000000000>, C4<0000000000000000>;
+v0x25228d0_0 .net *"_ivl_0", 15 0, L_0x2552450;  1 drivers
+L_0x7f9a342b0e28 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x25229d0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b0e28;  1 drivers
+v0x2522ab0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b0e70;  1 drivers
+v0x2522ba0_0 .net *"_ivl_14", 15 0, L_0x2551f60;  1 drivers
+v0x2522c80_0 .net *"_ivl_18", 0 0, L_0x25528a0;  1 drivers
+v0x2522d90_0 .net *"_ivl_2", 14 0, L_0x2552320;  1 drivers
+v0x2522e70_0 .net *"_ivl_20", 15 0, L_0x2552ac0;  1 drivers
+v0x2522f50_0 .net *"_ivl_22", 14 0, L_0x2552990;  1 drivers
+L_0x7f9a342b0eb8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2523030_0 .net *"_ivl_24", 0 0, L_0x7f9a342b0eb8;  1 drivers
+v0x2523110_0 .net *"_ivl_26", 15 0, L_0x2552ca0;  1 drivers
+v0x25231f0_0 .net *"_ivl_28", 14 0, L_0x2552bb0;  1 drivers
+L_0x7f9a342b0f00 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25232d0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b0f00;  1 drivers
+v0x25233b0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b0f48;  1 drivers
+v0x2523490_0 .net *"_ivl_34", 15 0, L_0x2552de0;  1 drivers
+v0x2523570_0 .net *"_ivl_38", 0 0, L_0x2553090;  1 drivers
+L_0x7f9a342b0de0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2523630_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0de0;  1 drivers
+v0x2523710_0 .net *"_ivl_40", 15 0, L_0x2553130;  1 drivers
+v0x2523900_0 .net *"_ivl_46", 14 0, L_0x2553430;  1 drivers
+L_0x7f9a342b0f90 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25239e0_0 .net *"_ivl_48", 0 0, L_0x7f9a342b0f90;  1 drivers
+v0x2523ac0_0 .net *"_ivl_6", 15 0, L_0x2552670;  1 drivers
+v0x2523ba0_0 .net *"_ivl_8", 0 0, L_0x2552540;  1 drivers
+v0x2523c80_0 .net "i_dividend", 15 0, L_0x25521e0;  alias, 1 drivers
+v0x2523d40_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2523de0_0 .net "i_quotient", 15 0, L_0x2551b80;  alias, 1 drivers
+v0x2523ed0_0 .net "i_remainder", 15 0, L_0x2551fd0;  alias, 1 drivers
+v0x2523fa0_0 .net "o_dividend", 15 0, L_0x2553550;  alias, 1 drivers
+v0x2524060_0 .net "o_quotient", 15 0, L_0x2552ef0;  alias, 1 drivers
+v0x2524140_0 .net "o_remainder", 15 0, L_0x2553340;  alias, 1 drivers
+v0x2524220_0 .net "remainder_tmp", 15 0, L_0x2551e60;  1 drivers
+L_0x2552320 .part L_0x2551fd0, 0, 15;
+L_0x2552450 .concat [ 1 15 0 0], L_0x7f9a342b0de0, L_0x2552320;
+L_0x2552540 .part L_0x25521e0, 15, 1;
+L_0x2552670 .concat [ 1 15 0 0], L_0x2552540, L_0x7f9a342b0e28;
+L_0x25528a0 .cmp/gt 16, v0x2538c90_0, L_0x2551e60;
+L_0x2552990 .part L_0x2551b80, 0, 15;
+L_0x2552ac0 .concat [ 1 15 0 0], L_0x7f9a342b0eb8, L_0x2552990;
+L_0x2552bb0 .part L_0x2551b80, 0, 15;
+L_0x2552ca0 .concat [ 1 15 0 0], L_0x7f9a342b0f00, L_0x2552bb0;
+L_0x2552ef0 .functor MUXZ 16, L_0x2552de0, L_0x2552ac0, L_0x25528a0, C4<>;
+L_0x2553090 .cmp/gt 16, v0x2538c90_0, L_0x2551e60;
+L_0x2553130 .arith/sub 16, L_0x2551e60, v0x2538c90_0;
+L_0x2553340 .functor MUXZ 16, L_0x2553130, L_0x2551e60, L_0x2553090, C4<>;
+L_0x2553430 .part L_0x25521e0, 0, 15;
+L_0x2553550 .concat [ 1 15 0 0], L_0x7f9a342b0f90, L_0x2553430;
+S_0x2524420 .scope generate, "genblk1[8]" "genblk1[8]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x251c3f0 .param/l "i" 0 3 30, +C4<01000>;
+S_0x2524660 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x2524420;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1068 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x25532d0 .functor AND 16, L_0x25539e0, L_0x7f9a342b1068, C4<1111111111111111>, C4<1111111111111111>;
+L_0x25531d0 .functor OR 16, L_0x25537c0, L_0x25532d0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1140 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2554150 .functor OR 16, L_0x2554010, L_0x7f9a342b1140, C4<0000000000000000>, C4<0000000000000000>;
+v0x25248f0_0 .net *"_ivl_0", 15 0, L_0x25537c0;  1 drivers
+L_0x7f9a342b1020 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x25249f0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1020;  1 drivers
+v0x2524ad0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1068;  1 drivers
+v0x2524bc0_0 .net *"_ivl_14", 15 0, L_0x25532d0;  1 drivers
+v0x2524ca0_0 .net *"_ivl_18", 0 0, L_0x2553c10;  1 drivers
+v0x2524db0_0 .net *"_ivl_2", 14 0, L_0x2553690;  1 drivers
+v0x2524e90_0 .net *"_ivl_20", 15 0, L_0x2553e30;  1 drivers
+v0x2524f70_0 .net *"_ivl_22", 14 0, L_0x2553d00;  1 drivers
+L_0x7f9a342b10b0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2525050_0 .net *"_ivl_24", 0 0, L_0x7f9a342b10b0;  1 drivers
+v0x25251c0_0 .net *"_ivl_26", 15 0, L_0x2554010;  1 drivers
+v0x25252a0_0 .net *"_ivl_28", 14 0, L_0x2553f20;  1 drivers
+L_0x7f9a342b10f8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2525380_0 .net *"_ivl_30", 0 0, L_0x7f9a342b10f8;  1 drivers
+v0x2525460_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1140;  1 drivers
+v0x2525540_0 .net *"_ivl_34", 15 0, L_0x2554150;  1 drivers
+v0x2525620_0 .net *"_ivl_38", 0 0, L_0x25543a0;  1 drivers
+L_0x7f9a342b0fd8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25256e0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b0fd8;  1 drivers
+v0x25257c0_0 .net *"_ivl_40", 15 0, L_0x2554440;  1 drivers
+v0x25259b0_0 .net *"_ivl_46", 14 0, L_0x2554740;  1 drivers
+L_0x7f9a342b1188 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2525a90_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1188;  1 drivers
+v0x2525b70_0 .net *"_ivl_6", 15 0, L_0x25539e0;  1 drivers
+v0x2525c50_0 .net *"_ivl_8", 0 0, L_0x25538b0;  1 drivers
+v0x2525d30_0 .net "i_dividend", 15 0, L_0x2553550;  alias, 1 drivers
+v0x2525df0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2525fa0_0 .net "i_quotient", 15 0, L_0x2552ef0;  alias, 1 drivers
+v0x2526090_0 .net "i_remainder", 15 0, L_0x2553340;  alias, 1 drivers
+v0x2526160_0 .net "o_dividend", 15 0, L_0x2554860;  alias, 1 drivers
+v0x2526220_0 .net "o_quotient", 15 0, L_0x2554260;  alias, 1 drivers
+v0x2526300_0 .net "o_remainder", 15 0, L_0x2554650;  alias, 1 drivers
+v0x25263e0_0 .net "remainder_tmp", 15 0, L_0x25531d0;  1 drivers
+L_0x2553690 .part L_0x2553340, 0, 15;
+L_0x25537c0 .concat [ 1 15 0 0], L_0x7f9a342b0fd8, L_0x2553690;
+L_0x25538b0 .part L_0x2553550, 15, 1;
+L_0x25539e0 .concat [ 1 15 0 0], L_0x25538b0, L_0x7f9a342b1020;
+L_0x2553c10 .cmp/gt 16, v0x2538c90_0, L_0x25531d0;
+L_0x2553d00 .part L_0x2552ef0, 0, 15;
+L_0x2553e30 .concat [ 1 15 0 0], L_0x7f9a342b10b0, L_0x2553d00;
+L_0x2553f20 .part L_0x2552ef0, 0, 15;
+L_0x2554010 .concat [ 1 15 0 0], L_0x7f9a342b10f8, L_0x2553f20;
+L_0x2554260 .functor MUXZ 16, L_0x2554150, L_0x2553e30, L_0x2553c10, C4<>;
+L_0x25543a0 .cmp/gt 16, v0x2538c90_0, L_0x25531d0;
+L_0x2554440 .arith/sub 16, L_0x25531d0, v0x2538c90_0;
+L_0x2554650 .functor MUXZ 16, L_0x2554440, L_0x25531d0, L_0x25543a0, C4<>;
+L_0x2554740 .part L_0x2553550, 0, 15;
+L_0x2554860 .concat [ 1 15 0 0], L_0x7f9a342b1188, L_0x2554740;
+S_0x25265e0 .scope generate, "genblk1[9]" "genblk1[9]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x2526790 .param/l "i" 0 3 30, +C4<01001>;
+S_0x2526870 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x25265e0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1260 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x25545e0 .functor AND 16, L_0x2555100, L_0x7f9a342b1260, C4<1111111111111111>, C4<1111111111111111>;
+L_0x25544e0 .functor OR 16, L_0x2554ad0, L_0x25545e0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1338 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2555780 .functor OR 16, L_0x2555640, L_0x7f9a342b1338, C4<0000000000000000>, C4<0000000000000000>;
+v0x2526b00_0 .net *"_ivl_0", 15 0, L_0x2554ad0;  1 drivers
+L_0x7f9a342b1218 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2526c00_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1218;  1 drivers
+v0x2526ce0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1260;  1 drivers
+v0x2526dd0_0 .net *"_ivl_14", 15 0, L_0x25545e0;  1 drivers
+v0x2526eb0_0 .net *"_ivl_18", 0 0, L_0x2555240;  1 drivers
+v0x2526fc0_0 .net *"_ivl_2", 14 0, L_0x25549a0;  1 drivers
+v0x25270a0_0 .net *"_ivl_20", 15 0, L_0x2555460;  1 drivers
+v0x2527180_0 .net *"_ivl_22", 14 0, L_0x2555330;  1 drivers
+L_0x7f9a342b12a8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2527260_0 .net *"_ivl_24", 0 0, L_0x7f9a342b12a8;  1 drivers
+v0x2527340_0 .net *"_ivl_26", 15 0, L_0x2555640;  1 drivers
+v0x2527420_0 .net *"_ivl_28", 14 0, L_0x2555550;  1 drivers
+L_0x7f9a342b12f0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2527500_0 .net *"_ivl_30", 0 0, L_0x7f9a342b12f0;  1 drivers
+v0x25275e0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1338;  1 drivers
+v0x25276c0_0 .net *"_ivl_34", 15 0, L_0x2555780;  1 drivers
+v0x25277a0_0 .net *"_ivl_38", 0 0, L_0x2555a30;  1 drivers
+L_0x7f9a342b11d0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2527860_0 .net *"_ivl_4", 0 0, L_0x7f9a342b11d0;  1 drivers
+v0x2527940_0 .net *"_ivl_40", 15 0, L_0x2555ad0;  1 drivers
+v0x2527b30_0 .net *"_ivl_46", 14 0, L_0x2555dd0;  1 drivers
+L_0x7f9a342b1380 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2527c10_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1380;  1 drivers
+v0x2527cf0_0 .net *"_ivl_6", 15 0, L_0x2555100;  1 drivers
+v0x2527dd0_0 .net *"_ivl_8", 0 0, L_0x2554bc0;  1 drivers
+v0x2527eb0_0 .net "i_dividend", 15 0, L_0x2554860;  alias, 1 drivers
+v0x2527f70_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2528010_0 .net "i_quotient", 15 0, L_0x2554260;  alias, 1 drivers
+v0x2528100_0 .net "i_remainder", 15 0, L_0x2554650;  alias, 1 drivers
+v0x25281d0_0 .net "o_dividend", 15 0, L_0x2555ef0;  alias, 1 drivers
+v0x2528290_0 .net "o_quotient", 15 0, L_0x2555890;  alias, 1 drivers
+v0x2528370_0 .net "o_remainder", 15 0, L_0x2555ce0;  alias, 1 drivers
+v0x2528450_0 .net "remainder_tmp", 15 0, L_0x25544e0;  1 drivers
+L_0x25549a0 .part L_0x2554650, 0, 15;
+L_0x2554ad0 .concat [ 1 15 0 0], L_0x7f9a342b11d0, L_0x25549a0;
+L_0x2554bc0 .part L_0x2554860, 15, 1;
+L_0x2555100 .concat [ 1 15 0 0], L_0x2554bc0, L_0x7f9a342b1218;
+L_0x2555240 .cmp/gt 16, v0x2538c90_0, L_0x25544e0;
+L_0x2555330 .part L_0x2554260, 0, 15;
+L_0x2555460 .concat [ 1 15 0 0], L_0x7f9a342b12a8, L_0x2555330;
+L_0x2555550 .part L_0x2554260, 0, 15;
+L_0x2555640 .concat [ 1 15 0 0], L_0x7f9a342b12f0, L_0x2555550;
+L_0x2555890 .functor MUXZ 16, L_0x2555780, L_0x2555460, L_0x2555240, C4<>;
+L_0x2555a30 .cmp/gt 16, v0x2538c90_0, L_0x25544e0;
+L_0x2555ad0 .arith/sub 16, L_0x25544e0, v0x2538c90_0;
+L_0x2555ce0 .functor MUXZ 16, L_0x2555ad0, L_0x25544e0, L_0x2555a30, C4<>;
+L_0x2555dd0 .part L_0x2554860, 0, 15;
+L_0x2555ef0 .concat [ 1 15 0 0], L_0x7f9a342b1380, L_0x2555dd0;
+S_0x2528650 .scope generate, "genblk1[10]" "genblk1[10]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x2528800 .param/l "i" 0 3 30, +C4<01010>;
+S_0x25288e0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x2528650;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1458 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2555c70 .functor AND 16, L_0x2556380, L_0x7f9a342b1458, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2555b70 .functor OR 16, L_0x2556160, L_0x2555c70, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1530 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2556af0 .functor OR 16, L_0x25569b0, L_0x7f9a342b1530, C4<0000000000000000>, C4<0000000000000000>;
+v0x2528b70_0 .net *"_ivl_0", 15 0, L_0x2556160;  1 drivers
+L_0x7f9a342b1410 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2528c70_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1410;  1 drivers
+v0x2528d50_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1458;  1 drivers
+v0x2528e40_0 .net *"_ivl_14", 15 0, L_0x2555c70;  1 drivers
+v0x2528f20_0 .net *"_ivl_18", 0 0, L_0x25565b0;  1 drivers
+v0x2529030_0 .net *"_ivl_2", 14 0, L_0x2556030;  1 drivers
+v0x2529110_0 .net *"_ivl_20", 15 0, L_0x25567d0;  1 drivers
+v0x25291f0_0 .net *"_ivl_22", 14 0, L_0x25566a0;  1 drivers
+L_0x7f9a342b14a0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25292d0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b14a0;  1 drivers
+v0x25293b0_0 .net *"_ivl_26", 15 0, L_0x25569b0;  1 drivers
+v0x2529490_0 .net *"_ivl_28", 14 0, L_0x25568c0;  1 drivers
+L_0x7f9a342b14e8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2529570_0 .net *"_ivl_30", 0 0, L_0x7f9a342b14e8;  1 drivers
+v0x2529650_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1530;  1 drivers
+v0x2529730_0 .net *"_ivl_34", 15 0, L_0x2556af0;  1 drivers
+v0x2529810_0 .net *"_ivl_38", 0 0, L_0x2556d40;  1 drivers
+L_0x7f9a342b13c8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25298d0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b13c8;  1 drivers
+v0x25299b0_0 .net *"_ivl_40", 15 0, L_0x2556de0;  1 drivers
+v0x2529ba0_0 .net *"_ivl_46", 14 0, L_0x25570e0;  1 drivers
+L_0x7f9a342b1578 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2529c80_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1578;  1 drivers
+v0x2529d60_0 .net *"_ivl_6", 15 0, L_0x2556380;  1 drivers
+v0x2529e40_0 .net *"_ivl_8", 0 0, L_0x2556250;  1 drivers
+v0x2529f20_0 .net "i_dividend", 15 0, L_0x2555ef0;  alias, 1 drivers
+v0x2529fe0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x252a080_0 .net "i_quotient", 15 0, L_0x2555890;  alias, 1 drivers
+v0x252a170_0 .net "i_remainder", 15 0, L_0x2555ce0;  alias, 1 drivers
+v0x252a240_0 .net "o_dividend", 15 0, L_0x2557200;  alias, 1 drivers
+v0x252a300_0 .net "o_quotient", 15 0, L_0x2556c00;  alias, 1 drivers
+v0x252a3e0_0 .net "o_remainder", 15 0, L_0x2556ff0;  alias, 1 drivers
+v0x252a4c0_0 .net "remainder_tmp", 15 0, L_0x2555b70;  1 drivers
+L_0x2556030 .part L_0x2555ce0, 0, 15;
+L_0x2556160 .concat [ 1 15 0 0], L_0x7f9a342b13c8, L_0x2556030;
+L_0x2556250 .part L_0x2555ef0, 15, 1;
+L_0x2556380 .concat [ 1 15 0 0], L_0x2556250, L_0x7f9a342b1410;
+L_0x25565b0 .cmp/gt 16, v0x2538c90_0, L_0x2555b70;
+L_0x25566a0 .part L_0x2555890, 0, 15;
+L_0x25567d0 .concat [ 1 15 0 0], L_0x7f9a342b14a0, L_0x25566a0;
+L_0x25568c0 .part L_0x2555890, 0, 15;
+L_0x25569b0 .concat [ 1 15 0 0], L_0x7f9a342b14e8, L_0x25568c0;
+L_0x2556c00 .functor MUXZ 16, L_0x2556af0, L_0x25567d0, L_0x25565b0, C4<>;
+L_0x2556d40 .cmp/gt 16, v0x2538c90_0, L_0x2555b70;
+L_0x2556de0 .arith/sub 16, L_0x2555b70, v0x2538c90_0;
+L_0x2556ff0 .functor MUXZ 16, L_0x2556de0, L_0x2555b70, L_0x2556d40, C4<>;
+L_0x25570e0 .part L_0x2555ef0, 0, 15;
+L_0x2557200 .concat [ 1 15 0 0], L_0x7f9a342b1578, L_0x25570e0;
+S_0x252a6c0 .scope generate, "genblk1[11]" "genblk1[11]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x252a870 .param/l "i" 0 3 30, +C4<01011>;
+S_0x252a950 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x252a6c0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1650 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2556f80 .functor AND 16, L_0x2557690, L_0x7f9a342b1650, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2556e80 .functor OR 16, L_0x2557470, L_0x2556f80, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1728 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2557e00 .functor OR 16, L_0x2557cc0, L_0x7f9a342b1728, C4<0000000000000000>, C4<0000000000000000>;
+v0x252abe0_0 .net *"_ivl_0", 15 0, L_0x2557470;  1 drivers
+L_0x7f9a342b1608 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x252ace0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1608;  1 drivers
+v0x252adc0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1650;  1 drivers
+v0x252aeb0_0 .net *"_ivl_14", 15 0, L_0x2556f80;  1 drivers
+v0x252af90_0 .net *"_ivl_18", 0 0, L_0x25578c0;  1 drivers
+v0x252b0a0_0 .net *"_ivl_2", 14 0, L_0x2557340;  1 drivers
+v0x252b180_0 .net *"_ivl_20", 15 0, L_0x2557ae0;  1 drivers
+v0x252b260_0 .net *"_ivl_22", 14 0, L_0x25579b0;  1 drivers
+L_0x7f9a342b1698 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252b340_0 .net *"_ivl_24", 0 0, L_0x7f9a342b1698;  1 drivers
+v0x252b420_0 .net *"_ivl_26", 15 0, L_0x2557cc0;  1 drivers
+v0x252b500_0 .net *"_ivl_28", 14 0, L_0x2557bd0;  1 drivers
+L_0x7f9a342b16e0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252b5e0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b16e0;  1 drivers
+v0x252b6c0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1728;  1 drivers
+v0x252b7a0_0 .net *"_ivl_34", 15 0, L_0x2557e00;  1 drivers
+v0x252b880_0 .net *"_ivl_38", 0 0, L_0x2558050;  1 drivers
+L_0x7f9a342b15c0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252b940_0 .net *"_ivl_4", 0 0, L_0x7f9a342b15c0;  1 drivers
+v0x252ba20_0 .net *"_ivl_40", 15 0, L_0x25580f0;  1 drivers
+v0x252bc10_0 .net *"_ivl_46", 14 0, L_0x25583f0;  1 drivers
+L_0x7f9a342b1770 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252bcf0_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1770;  1 drivers
+v0x252bdd0_0 .net *"_ivl_6", 15 0, L_0x2557690;  1 drivers
+v0x252beb0_0 .net *"_ivl_8", 0 0, L_0x2557560;  1 drivers
+v0x252bf90_0 .net "i_dividend", 15 0, L_0x2557200;  alias, 1 drivers
+v0x252c050_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x252c0f0_0 .net "i_quotient", 15 0, L_0x2556c00;  alias, 1 drivers
+v0x252c1e0_0 .net "i_remainder", 15 0, L_0x2556ff0;  alias, 1 drivers
+v0x252c2b0_0 .net "o_dividend", 15 0, L_0x2558510;  alias, 1 drivers
+v0x252c370_0 .net "o_quotient", 15 0, L_0x2557f10;  alias, 1 drivers
+v0x252c450_0 .net "o_remainder", 15 0, L_0x2558300;  alias, 1 drivers
+v0x252c530_0 .net "remainder_tmp", 15 0, L_0x2556e80;  1 drivers
+L_0x2557340 .part L_0x2556ff0, 0, 15;
+L_0x2557470 .concat [ 1 15 0 0], L_0x7f9a342b15c0, L_0x2557340;
+L_0x2557560 .part L_0x2557200, 15, 1;
+L_0x2557690 .concat [ 1 15 0 0], L_0x2557560, L_0x7f9a342b1608;
+L_0x25578c0 .cmp/gt 16, v0x2538c90_0, L_0x2556e80;
+L_0x25579b0 .part L_0x2556c00, 0, 15;
+L_0x2557ae0 .concat [ 1 15 0 0], L_0x7f9a342b1698, L_0x25579b0;
+L_0x2557bd0 .part L_0x2556c00, 0, 15;
+L_0x2557cc0 .concat [ 1 15 0 0], L_0x7f9a342b16e0, L_0x2557bd0;
+L_0x2557f10 .functor MUXZ 16, L_0x2557e00, L_0x2557ae0, L_0x25578c0, C4<>;
+L_0x2558050 .cmp/gt 16, v0x2538c90_0, L_0x2556e80;
+L_0x25580f0 .arith/sub 16, L_0x2556e80, v0x2538c90_0;
+L_0x2558300 .functor MUXZ 16, L_0x25580f0, L_0x2556e80, L_0x2558050, C4<>;
+L_0x25583f0 .part L_0x2557200, 0, 15;
+L_0x2558510 .concat [ 1 15 0 0], L_0x7f9a342b1770, L_0x25583f0;
+S_0x252c730 .scope generate, "genblk1[12]" "genblk1[12]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x252c8e0 .param/l "i" 0 3 30, +C4<01100>;
+S_0x252c9c0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x252c730;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1848 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2558290 .functor AND 16, L_0x25589a0, L_0x7f9a342b1848, C4<1111111111111111>, C4<1111111111111111>;
+L_0x2558190 .functor OR 16, L_0x2558780, L_0x2558290, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1920 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x2559110 .functor OR 16, L_0x2558fd0, L_0x7f9a342b1920, C4<0000000000000000>, C4<0000000000000000>;
+v0x252cc50_0 .net *"_ivl_0", 15 0, L_0x2558780;  1 drivers
+L_0x7f9a342b1800 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x252cd50_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1800;  1 drivers
+v0x252ce30_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1848;  1 drivers
+v0x252cf20_0 .net *"_ivl_14", 15 0, L_0x2558290;  1 drivers
+v0x252d000_0 .net *"_ivl_18", 0 0, L_0x2558bd0;  1 drivers
+v0x252d110_0 .net *"_ivl_2", 14 0, L_0x2558650;  1 drivers
+v0x252d1f0_0 .net *"_ivl_20", 15 0, L_0x2558df0;  1 drivers
+v0x252d2d0_0 .net *"_ivl_22", 14 0, L_0x2558cc0;  1 drivers
+L_0x7f9a342b1890 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252d3b0_0 .net *"_ivl_24", 0 0, L_0x7f9a342b1890;  1 drivers
+v0x252d490_0 .net *"_ivl_26", 15 0, L_0x2558fd0;  1 drivers
+v0x252d570_0 .net *"_ivl_28", 14 0, L_0x2558ee0;  1 drivers
+L_0x7f9a342b18d8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252d650_0 .net *"_ivl_30", 0 0, L_0x7f9a342b18d8;  1 drivers
+v0x252d730_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1920;  1 drivers
+v0x252d810_0 .net *"_ivl_34", 15 0, L_0x2559110;  1 drivers
+v0x252d8f0_0 .net *"_ivl_38", 0 0, L_0x2559360;  1 drivers
+L_0x7f9a342b17b8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252d9b0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b17b8;  1 drivers
+v0x252da90_0 .net *"_ivl_40", 15 0, L_0x2559400;  1 drivers
+v0x252dc80_0 .net *"_ivl_46", 14 0, L_0x2559700;  1 drivers
+L_0x7f9a342b1968 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252dd60_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1968;  1 drivers
+v0x252de40_0 .net *"_ivl_6", 15 0, L_0x25589a0;  1 drivers
+v0x252df20_0 .net *"_ivl_8", 0 0, L_0x2558870;  1 drivers
+v0x252e000_0 .net "i_dividend", 15 0, L_0x2558510;  alias, 1 drivers
+v0x252e0c0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x252e160_0 .net "i_quotient", 15 0, L_0x2557f10;  alias, 1 drivers
+v0x252e250_0 .net "i_remainder", 15 0, L_0x2558300;  alias, 1 drivers
+v0x252e320_0 .net "o_dividend", 15 0, L_0x2559820;  alias, 1 drivers
+v0x252e3e0_0 .net "o_quotient", 15 0, L_0x2559220;  alias, 1 drivers
+v0x252e4c0_0 .net "o_remainder", 15 0, L_0x2559610;  alias, 1 drivers
+v0x252e5a0_0 .net "remainder_tmp", 15 0, L_0x2558190;  1 drivers
+L_0x2558650 .part L_0x2558300, 0, 15;
+L_0x2558780 .concat [ 1 15 0 0], L_0x7f9a342b17b8, L_0x2558650;
+L_0x2558870 .part L_0x2558510, 15, 1;
+L_0x25589a0 .concat [ 1 15 0 0], L_0x2558870, L_0x7f9a342b1800;
+L_0x2558bd0 .cmp/gt 16, v0x2538c90_0, L_0x2558190;
+L_0x2558cc0 .part L_0x2557f10, 0, 15;
+L_0x2558df0 .concat [ 1 15 0 0], L_0x7f9a342b1890, L_0x2558cc0;
+L_0x2558ee0 .part L_0x2557f10, 0, 15;
+L_0x2558fd0 .concat [ 1 15 0 0], L_0x7f9a342b18d8, L_0x2558ee0;
+L_0x2559220 .functor MUXZ 16, L_0x2559110, L_0x2558df0, L_0x2558bd0, C4<>;
+L_0x2559360 .cmp/gt 16, v0x2538c90_0, L_0x2558190;
+L_0x2559400 .arith/sub 16, L_0x2558190, v0x2538c90_0;
+L_0x2559610 .functor MUXZ 16, L_0x2559400, L_0x2558190, L_0x2559360, C4<>;
+L_0x2559700 .part L_0x2558510, 0, 15;
+L_0x2559820 .concat [ 1 15 0 0], L_0x7f9a342b1968, L_0x2559700;
+S_0x252e7a0 .scope generate, "genblk1[13]" "genblk1[13]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x252e950 .param/l "i" 0 3 30, +C4<01101>;
+S_0x252ea30 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x252e7a0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1a40 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x25595a0 .functor AND 16, L_0x2559cb0, L_0x7f9a342b1a40, C4<1111111111111111>, C4<1111111111111111>;
+L_0x25594a0 .functor OR 16, L_0x2559a90, L_0x25595a0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1b18 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255a420 .functor OR 16, L_0x255a2e0, L_0x7f9a342b1b18, C4<0000000000000000>, C4<0000000000000000>;
+v0x252ecc0_0 .net *"_ivl_0", 15 0, L_0x2559a90;  1 drivers
+L_0x7f9a342b19f8 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x252edc0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b19f8;  1 drivers
+v0x252eea0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1a40;  1 drivers
+v0x252ef90_0 .net *"_ivl_14", 15 0, L_0x25595a0;  1 drivers
+v0x252f070_0 .net *"_ivl_18", 0 0, L_0x2559ee0;  1 drivers
+v0x252f180_0 .net *"_ivl_2", 14 0, L_0x2559960;  1 drivers
+v0x252f260_0 .net *"_ivl_20", 15 0, L_0x255a100;  1 drivers
+v0x252f340_0 .net *"_ivl_22", 14 0, L_0x2559fd0;  1 drivers
+L_0x7f9a342b1a88 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252f420_0 .net *"_ivl_24", 0 0, L_0x7f9a342b1a88;  1 drivers
+v0x252f500_0 .net *"_ivl_26", 15 0, L_0x255a2e0;  1 drivers
+v0x252f5e0_0 .net *"_ivl_28", 14 0, L_0x255a1f0;  1 drivers
+L_0x7f9a342b1ad0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252f6c0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b1ad0;  1 drivers
+v0x252f7a0_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1b18;  1 drivers
+v0x252f880_0 .net *"_ivl_34", 15 0, L_0x255a420;  1 drivers
+v0x252f960_0 .net *"_ivl_38", 0 0, L_0x255a670;  1 drivers
+L_0x7f9a342b19b0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252fa20_0 .net *"_ivl_4", 0 0, L_0x7f9a342b19b0;  1 drivers
+v0x252fb00_0 .net *"_ivl_40", 15 0, L_0x255a710;  1 drivers
+v0x252fcf0_0 .net *"_ivl_46", 14 0, L_0x255aa10;  1 drivers
+L_0x7f9a342b1b60 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x252fdd0_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1b60;  1 drivers
+v0x252feb0_0 .net *"_ivl_6", 15 0, L_0x2559cb0;  1 drivers
+v0x252ff90_0 .net *"_ivl_8", 0 0, L_0x2559b80;  1 drivers
+v0x2530070_0 .net "i_dividend", 15 0, L_0x2559820;  alias, 1 drivers
+v0x2530130_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x25301d0_0 .net "i_quotient", 15 0, L_0x2559220;  alias, 1 drivers
+v0x25302c0_0 .net "i_remainder", 15 0, L_0x2559610;  alias, 1 drivers
+v0x2530390_0 .net "o_dividend", 15 0, L_0x255ab30;  alias, 1 drivers
+v0x2530450_0 .net "o_quotient", 15 0, L_0x255a530;  alias, 1 drivers
+v0x2530530_0 .net "o_remainder", 15 0, L_0x255a920;  alias, 1 drivers
+v0x2530610_0 .net "remainder_tmp", 15 0, L_0x25594a0;  1 drivers
+L_0x2559960 .part L_0x2559610, 0, 15;
+L_0x2559a90 .concat [ 1 15 0 0], L_0x7f9a342b19b0, L_0x2559960;
+L_0x2559b80 .part L_0x2559820, 15, 1;
+L_0x2559cb0 .concat [ 1 15 0 0], L_0x2559b80, L_0x7f9a342b19f8;
+L_0x2559ee0 .cmp/gt 16, v0x2538c90_0, L_0x25594a0;
+L_0x2559fd0 .part L_0x2559220, 0, 15;
+L_0x255a100 .concat [ 1 15 0 0], L_0x7f9a342b1a88, L_0x2559fd0;
+L_0x255a1f0 .part L_0x2559220, 0, 15;
+L_0x255a2e0 .concat [ 1 15 0 0], L_0x7f9a342b1ad0, L_0x255a1f0;
+L_0x255a530 .functor MUXZ 16, L_0x255a420, L_0x255a100, L_0x2559ee0, C4<>;
+L_0x255a670 .cmp/gt 16, v0x2538c90_0, L_0x25594a0;
+L_0x255a710 .arith/sub 16, L_0x25594a0, v0x2538c90_0;
+L_0x255a920 .functor MUXZ 16, L_0x255a710, L_0x25594a0, L_0x255a670, C4<>;
+L_0x255aa10 .part L_0x2559820, 0, 15;
+L_0x255ab30 .concat [ 1 15 0 0], L_0x7f9a342b1b60, L_0x255aa10;
+S_0x2530810 .scope generate, "genblk1[14]" "genblk1[14]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x25309c0 .param/l "i" 0 3 30, +C4<01110>;
+S_0x2530aa0 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x2530810;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1c38 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255a8b0 .functor AND 16, L_0x255afc0, L_0x7f9a342b1c38, C4<1111111111111111>, C4<1111111111111111>;
+L_0x255a7b0 .functor OR 16, L_0x255ada0, L_0x255a8b0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1d10 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255b730 .functor OR 16, L_0x255b5f0, L_0x7f9a342b1d10, C4<0000000000000000>, C4<0000000000000000>;
+v0x2530d30_0 .net *"_ivl_0", 15 0, L_0x255ada0;  1 drivers
+L_0x7f9a342b1bf0 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2530e30_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1bf0;  1 drivers
+v0x2530f10_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1c38;  1 drivers
+v0x2531000_0 .net *"_ivl_14", 15 0, L_0x255a8b0;  1 drivers
+v0x25310e0_0 .net *"_ivl_18", 0 0, L_0x255b1f0;  1 drivers
+v0x25311f0_0 .net *"_ivl_2", 14 0, L_0x255ac70;  1 drivers
+v0x25312d0_0 .net *"_ivl_20", 15 0, L_0x255b410;  1 drivers
+v0x25313b0_0 .net *"_ivl_22", 14 0, L_0x255b2e0;  1 drivers
+L_0x7f9a342b1c80 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2531490_0 .net *"_ivl_24", 0 0, L_0x7f9a342b1c80;  1 drivers
+v0x2531570_0 .net *"_ivl_26", 15 0, L_0x255b5f0;  1 drivers
+v0x2531650_0 .net *"_ivl_28", 14 0, L_0x255b500;  1 drivers
+L_0x7f9a342b1cc8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2531730_0 .net *"_ivl_30", 0 0, L_0x7f9a342b1cc8;  1 drivers
+v0x2531810_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1d10;  1 drivers
+v0x25318f0_0 .net *"_ivl_34", 15 0, L_0x255b730;  1 drivers
+v0x25319d0_0 .net *"_ivl_38", 0 0, L_0x255b980;  1 drivers
+L_0x7f9a342b1ba8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2531a90_0 .net *"_ivl_4", 0 0, L_0x7f9a342b1ba8;  1 drivers
+v0x2531b70_0 .net *"_ivl_40", 15 0, L_0x255ba20;  1 drivers
+v0x2531d60_0 .net *"_ivl_46", 14 0, L_0x255bd20;  1 drivers
+L_0x7f9a342b1d58 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2531e40_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1d58;  1 drivers
+v0x2531f20_0 .net *"_ivl_6", 15 0, L_0x255afc0;  1 drivers
+v0x2532000_0 .net *"_ivl_8", 0 0, L_0x255ae90;  1 drivers
+v0x25320e0_0 .net "i_dividend", 15 0, L_0x255ab30;  alias, 1 drivers
+v0x25321a0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2532240_0 .net "i_quotient", 15 0, L_0x255a530;  alias, 1 drivers
+v0x2532330_0 .net "i_remainder", 15 0, L_0x255a920;  alias, 1 drivers
+v0x2532400_0 .net "o_dividend", 15 0, L_0x255be40;  alias, 1 drivers
+v0x25324c0_0 .net "o_quotient", 15 0, L_0x255b840;  alias, 1 drivers
+v0x25325a0_0 .net "o_remainder", 15 0, L_0x255bc30;  alias, 1 drivers
+v0x2532680_0 .net "remainder_tmp", 15 0, L_0x255a7b0;  1 drivers
+L_0x255ac70 .part L_0x255a920, 0, 15;
+L_0x255ada0 .concat [ 1 15 0 0], L_0x7f9a342b1ba8, L_0x255ac70;
+L_0x255ae90 .part L_0x255ab30, 15, 1;
+L_0x255afc0 .concat [ 1 15 0 0], L_0x255ae90, L_0x7f9a342b1bf0;
+L_0x255b1f0 .cmp/gt 16, v0x2538c90_0, L_0x255a7b0;
+L_0x255b2e0 .part L_0x255a530, 0, 15;
+L_0x255b410 .concat [ 1 15 0 0], L_0x7f9a342b1c80, L_0x255b2e0;
+L_0x255b500 .part L_0x255a530, 0, 15;
+L_0x255b5f0 .concat [ 1 15 0 0], L_0x7f9a342b1cc8, L_0x255b500;
+L_0x255b840 .functor MUXZ 16, L_0x255b730, L_0x255b410, L_0x255b1f0, C4<>;
+L_0x255b980 .cmp/gt 16, v0x2538c90_0, L_0x255a7b0;
+L_0x255ba20 .arith/sub 16, L_0x255a7b0, v0x2538c90_0;
+L_0x255bc30 .functor MUXZ 16, L_0x255ba20, L_0x255a7b0, L_0x255b980, C4<>;
+L_0x255bd20 .part L_0x255ab30, 0, 15;
+L_0x255be40 .concat [ 1 15 0 0], L_0x7f9a342b1d58, L_0x255bd20;
+S_0x2532880 .scope generate, "genblk1[15]" "genblk1[15]" 3 30, 3 30 0, S_0x24fce20;
+ .timescale -9 -12;
+P_0x2532a30 .param/l "i" 0 3 30, +C4<01111>;
+S_0x2532b10 .scope module, "div" "lc4_divider_one_iter" 3 32, 3 41 0, S_0x2532880;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b1e30 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255bbc0 .functor AND 16, L_0x255c2d0, L_0x7f9a342b1e30, C4<1111111111111111>, C4<1111111111111111>;
+L_0x255bac0 .functor OR 16, L_0x255c0b0, L_0x255bbc0, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b1f08 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255d0c0 .functor OR 16, L_0x255d020, L_0x7f9a342b1f08, C4<0000000000000000>, C4<0000000000000000>;
+v0x2532da0_0 .net *"_ivl_0", 15 0, L_0x255c0b0;  1 drivers
+L_0x7f9a342b1de8 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2532ea0_0 .net *"_ivl_10", 14 0, L_0x7f9a342b1de8;  1 drivers
+v0x2532f80_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b1e30;  1 drivers
+v0x2533070_0 .net *"_ivl_14", 15 0, L_0x255bbc0;  1 drivers
+v0x2533150_0 .net *"_ivl_18", 0 0, L_0x255c500;  1 drivers
+v0x2533260_0 .net *"_ivl_2", 14 0, L_0x255bf80;  1 drivers
+v0x2533340_0 .net *"_ivl_20", 15 0, L_0x255cee0;  1 drivers
+v0x2533420_0 .net *"_ivl_22", 14 0, L_0x255cdb0;  1 drivers
+L_0x7f9a342b1e78 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2533500_0 .net *"_ivl_24", 0 0, L_0x7f9a342b1e78;  1 drivers
+v0x25335e0_0 .net *"_ivl_26", 15 0, L_0x255d020;  1 drivers
+v0x25336c0_0 .net *"_ivl_28", 14 0, L_0x255cf80;  1 drivers
+L_0x7f9a342b1ec0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25337a0_0 .net *"_ivl_30", 0 0, L_0x7f9a342b1ec0;  1 drivers
+v0x2533880_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b1f08;  1 drivers
+v0x2533960_0 .net *"_ivl_34", 15 0, L_0x255d0c0;  1 drivers
+v0x2533a40_0 .net *"_ivl_38", 0 0, L_0x255d2c0;  1 drivers
+L_0x7f9a342b1da0 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2533b00_0 .net *"_ivl_4", 0 0, L_0x7f9a342b1da0;  1 drivers
+v0x2533be0_0 .net *"_ivl_40", 15 0, L_0x255d360;  1 drivers
+v0x2533dd0_0 .net *"_ivl_46", 14 0, L_0x255d6b0;  1 drivers
+L_0x7f9a342b1f50 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2533eb0_0 .net *"_ivl_48", 0 0, L_0x7f9a342b1f50;  1 drivers
+v0x2533f90_0 .net *"_ivl_6", 15 0, L_0x255c2d0;  1 drivers
+v0x2534070_0 .net *"_ivl_8", 0 0, L_0x255c1a0;  1 drivers
+v0x2534150_0 .net "i_dividend", 15 0, L_0x255be40;  alias, 1 drivers
+v0x2534210_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x25342b0_0 .net "i_quotient", 15 0, L_0x255b840;  alias, 1 drivers
+v0x25343a0_0 .net "i_remainder", 15 0, L_0x255bc30;  alias, 1 drivers
+v0x2534470_0 .net "o_dividend", 15 0, L_0x255d7d0;  alias, 1 drivers
+v0x2534530_0 .net "o_quotient", 15 0, L_0x255d130;  alias, 1 drivers
+v0x2534610_0 .net "o_remainder", 15 0, L_0x255d570;  alias, 1 drivers
+v0x25346f0_0 .net "remainder_tmp", 15 0, L_0x255bac0;  1 drivers
+L_0x255bf80 .part L_0x255bc30, 0, 15;
+L_0x255c0b0 .concat [ 1 15 0 0], L_0x7f9a342b1da0, L_0x255bf80;
+L_0x255c1a0 .part L_0x255be40, 15, 1;
+L_0x255c2d0 .concat [ 1 15 0 0], L_0x255c1a0, L_0x7f9a342b1de8;
+L_0x255c500 .cmp/gt 16, v0x2538c90_0, L_0x255bac0;
+L_0x255cdb0 .part L_0x255b840, 0, 15;
+L_0x255cee0 .concat [ 1 15 0 0], L_0x7f9a342b1e78, L_0x255cdb0;
+L_0x255cf80 .part L_0x255b840, 0, 15;
+L_0x255d020 .concat [ 1 15 0 0], L_0x7f9a342b1ec0, L_0x255cf80;
+L_0x255d130 .functor MUXZ 16, L_0x255d0c0, L_0x255cee0, L_0x255c500, C4<>;
+L_0x255d2c0 .cmp/gt 16, v0x2538c90_0, L_0x255bac0;
+L_0x255d360 .arith/sub 16, L_0x255bac0, v0x2538c90_0;
+L_0x255d570 .functor MUXZ 16, L_0x255d360, L_0x255bac0, L_0x255d2c0, C4<>;
+L_0x255d6b0 .part L_0x255be40, 0, 15;
+L_0x255d7d0 .concat [ 1 15 0 0], L_0x7f9a342b1f50, L_0x255d6b0;
+S_0x2536470 .scope module, "divider_iter" "lc4_divider_one_iter" 2 65, 3 41 0, S_0x24fcc90;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 16 "i_dividend";
+    .port_info 1 /INPUT 16 "i_divisor";
+    .port_info 2 /INPUT 16 "i_remainder";
+    .port_info 3 /INPUT 16 "i_quotient";
+    .port_info 4 /OUTPUT 16 "o_dividend";
+    .port_info 5 /OUTPUT 16 "o_remainder";
+    .port_info 6 /OUTPUT 16 "o_quotient";
+L_0x7f9a342b21d8 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255d400 .functor AND 16, L_0x255e240, L_0x7f9a342b21d8, C4<1111111111111111>, C4<1111111111111111>;
+L_0x255e3d0 .functor OR 16, L_0x255e020, L_0x255d400, C4<0000000000000000>, C4<0000000000000000>;
+L_0x7f9a342b22b0 .functor BUFT 1, C4<0000000000000001>, C4<0>, C4<0>, C4<0>;
+L_0x255e9e0 .functor OR 16, L_0x255e8a0, L_0x7f9a342b22b0, C4<0000000000000000>, C4<0000000000000000>;
+v0x2536720_0 .net *"_ivl_0", 15 0, L_0x255e020;  1 drivers
+L_0x7f9a342b2190 .functor BUFT 1, C4<000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x2536800_0 .net *"_ivl_10", 14 0, L_0x7f9a342b2190;  1 drivers
+v0x25368e0_0 .net/2u *"_ivl_12", 15 0, L_0x7f9a342b21d8;  1 drivers
+v0x25369a0_0 .net *"_ivl_14", 15 0, L_0x255d400;  1 drivers
+v0x2536a80_0 .net *"_ivl_18", 0 0, L_0x255e4e0;  1 drivers
+v0x2536b90_0 .net *"_ivl_2", 14 0, L_0x255df80;  1 drivers
+v0x2536c70_0 .net *"_ivl_20", 15 0, L_0x255e6c0;  1 drivers
+v0x2536d50_0 .net *"_ivl_22", 14 0, L_0x255e5d0;  1 drivers
+L_0x7f9a342b2220 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2536e30_0 .net *"_ivl_24", 0 0, L_0x7f9a342b2220;  1 drivers
+v0x2536fa0_0 .net *"_ivl_26", 15 0, L_0x255e8a0;  1 drivers
+v0x2537080_0 .net *"_ivl_28", 14 0, L_0x255e800;  1 drivers
+L_0x7f9a342b2268 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2537160_0 .net *"_ivl_30", 0 0, L_0x7f9a342b2268;  1 drivers
+v0x2537240_0 .net/2u *"_ivl_32", 15 0, L_0x7f9a342b22b0;  1 drivers
+v0x2537320_0 .net *"_ivl_34", 15 0, L_0x255e9e0;  1 drivers
+v0x2537400_0 .net *"_ivl_38", 0 0, L_0x255ec80;  1 drivers
+L_0x7f9a342b2148 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x25374c0_0 .net *"_ivl_4", 0 0, L_0x7f9a342b2148;  1 drivers
+v0x25375a0_0 .net *"_ivl_40", 15 0, L_0x255ed20;  1 drivers
+v0x2537680_0 .net *"_ivl_46", 14 0, L_0x255f070;  1 drivers
+L_0x7f9a342b22f8 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v0x2537760_0 .net *"_ivl_48", 0 0, L_0x7f9a342b22f8;  1 drivers
+v0x2537840_0 .net *"_ivl_6", 15 0, L_0x255e240;  1 drivers
+v0x2537920_0 .net *"_ivl_8", 0 0, L_0x255e110;  1 drivers
+v0x2537a00_0 .net "i_dividend", 15 0, v0x2538b80_0;  alias, 1 drivers
+v0x2537ac0_0 .net "i_divisor", 15 0, v0x2538c90_0;  alias, 1 drivers
+v0x2537b60_0 .net "i_quotient", 15 0, v0x2538d50_0;  1 drivers
+v0x2537c40_0 .net "i_remainder", 15 0, v0x2538e10_0;  1 drivers
+v0x2537d20_0 .net "o_dividend", 15 0, L_0x255f190;  alias, 1 drivers
+v0x2537e00_0 .net "o_quotient", 15 0, L_0x255eaf0;  alias, 1 drivers
+v0x2537ee0_0 .net "o_remainder", 15 0, L_0x255ef30;  alias, 1 drivers
+v0x2537fc0_0 .net "remainder_tmp", 15 0, L_0x255e3d0;  1 drivers
+L_0x255df80 .part v0x2538e10_0, 0, 15;
+L_0x255e020 .concat [ 1 15 0 0], L_0x7f9a342b2148, L_0x255df80;
+L_0x255e110 .part v0x2538b80_0, 15, 1;
+L_0x255e240 .concat [ 1 15 0 0], L_0x255e110, L_0x7f9a342b2190;
+L_0x255e4e0 .cmp/gt 16, v0x2538c90_0, L_0x255e3d0;
+L_0x255e5d0 .part v0x2538d50_0, 0, 15;
+L_0x255e6c0 .concat [ 1 15 0 0], L_0x7f9a342b2220, L_0x255e5d0;
+L_0x255e800 .part v0x2538d50_0, 0, 15;
+L_0x255e8a0 .concat [ 1 15 0 0], L_0x7f9a342b2268, L_0x255e800;
+L_0x255eaf0 .functor MUXZ 16, L_0x255e9e0, L_0x255e6c0, L_0x255e4e0, C4<>;
+L_0x255ec80 .cmp/gt 16, v0x2538c90_0, L_0x255e3d0;
+L_0x255ed20 .arith/sub 16, L_0x255e3d0, v0x2538c90_0;
+L_0x255ef30 .functor MUXZ 16, L_0x255ed20, L_0x255e3d0, L_0x255ec80, C4<>;
+L_0x255f070 .part v0x2538b80_0, 0, 15;
+L_0x255f190 .concat [ 1 15 0 0], L_0x7f9a342b22f8, L_0x255f070;
+S_0x25381c0 .scope task, "printPoints" "printPoints" 4 1, 4 1 0, S_0x24fcc90;
+ .timescale -9 -12;
+v0x2538350_0 .var "actual", 31 0;
+v0x2538430_0 .var "possible", 31 0;
+TD_test_divider.printPoints ;
+    %vpi_call 4 4 "$display", "<scorePossible>%d</scorePossible>", v0x2538430_0 {0 0 0};
+    %vpi_call 4 5 "$display", "<scoreActual>%d</scoreActual>", v0x2538350_0 {0 0 0};
+    %end;
+    .scope S_0x24fcc90;
+T_1 ;
+    %vpi_call 2 74 "$dumpfile", "divider.vcd" {0 0 0};
+    %vpi_call 2 75 "$dumpvars" {0 0 0};
+    %pushi/vec4 42, 0, 32;
+    %store/vec4 v0x25393c0_0, 0, 32;
+    %vpi_func 2 81 "$random" 32, v0x25393c0_0 {0 0 0};
+    %store/vec4 v0x25393c0_0, 0, 32;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538b80_0, 0, 16;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538c90_0, 0, 16;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538e10_0, 0, 16;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538d50_0, 0, 16;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x25387b0_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x2538610_0, 0, 32;
+    %vpi_func 2 96 "$fopen" 32, "test_lc4_divider_one_iter.input", "r" {0 0 0};
+    %store/vec4 v0x2538eb0_0, 0, 32;
+    %load/vec4 v0x2538eb0_0;
+    %cmpi/e 0, 0, 32;
+    %jmp/0xz  T_1.0, 4;
+    %vpi_call 2 98 "$display", "Error opening file: ", "test_lc4_divider_one_iter.input" {0 0 0};
+    %vpi_call 2 99 "$finish" {0 0 0};
+T_1.0 ;
+    %delay 100000, 0;
+    %delay 2000, 0;
+T_1.2 ;
+    %vpi_func 2 108 "$fscanf" 32, v0x2538eb0_0, "%d:%b %b %b %b %b %b %b", v0x2538510_0, v0x2538b80_0, v0x2538c90_0, v0x2538e10_0, v0x2538d50_0, v0x2538890_0, v0x2538aa0_0, v0x25389c0_0 {0 0 0};
+    %cmpi/e 8, 0, 32;
+    %jmp/0xz T_1.3, 4;
+    %delay 8000, 0;
+    %load/vec4 v0x2538610_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x2538610_0, 0, 32;
+    %load/vec4 v0x2538f70_0;
+    %load/vec4 v0x2538890_0;
+    %cmp/ne;
+    %flag_mov 8, 6;
+    %load/vec4 v0x25390d0_0;
+    %load/vec4 v0x2538aa0_0;
+    %cmp/ne;
+    %flag_or 6, 8;
+    %flag_mov 8, 6;
+    %load/vec4 v0x2539030_0;
+    %load/vec4 v0x25389c0_0;
+    %cmp/ne;
+    %flag_or 6, 8;
+    %jmp/0xz  T_1.4, 6;
+    %load/vec4 v0x25387b0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25387b0_0, 0, 32;
+    %load/vec4 v0x25387b0_0;
+    %cmpi/s 15, 0, 32;
+    %jmp/0xz  T_1.6, 5;
+    %vpi_call 2 119 "$display", "[lc4_divider_one_iter] Error at test %04d: i_dividend = %b %b %b %b (0x%H), i_divisor = %b %b %b %b (0x%H), i_remainder = %b %b %b %b (0x%H), i_quotient = %b %b %b %b (0x%H)", v0x2538610_0, &PV<v0x2538b80_0, 12, 4>, &PV<v0x2538b80_0, 8, 4>, &PV<v0x2538b80_0, 4, 4>, &PV<v0x2538b80_0, 0, 4>, v0x2538b80_0, &PV<v0x2538c90_0, 12, 4>, &PV<v0x2538c90_0, 8, 4>, &PV<v0x2538c90_0, 4, 4>, &PV<v0x2538c90_0, 0, 4>, v0x2538c90_0, &PV<v0x2538e10_0, 12, 4>, &PV<v0x2538e10_0, 8, 4>, &PV<v0x2538e10_0, 4, 4>, &PV<v0x2538e10_0, 0, 4>, v0x2538e10_0, &PV<v0x2538d50_0, 12, 4>, &PV<v0x2538d50_0, 8, 4>, &PV<v0x2538d50_0, 4, 4>, &PV<v0x2538d50_0, 0, 4>, v0x2538d50_0 {0 0 0};
+    %load/vec4 v0x2538f70_0;
+    %load/vec4 v0x2538890_0;
+    %cmp/ne;
+    %jmp/0xz  T_1.8, 6;
+    %vpi_call 2 126 "$display", "   o_dividend should have been %b %b %b %b (0x%H), but was %b %b %b %b (0x%H) instead", &PV<v0x2538890_0, 12, 4>, &PV<v0x2538890_0, 8, 4>, &PV<v0x2538890_0, 4, 4>, &PV<v0x2538890_0, 0, 4>, v0x2538890_0, &PV<v0x2538f70_0, 12, 4>, &PV<v0x2538f70_0, 8, 4>, &PV<v0x2538f70_0, 4, 4>, &PV<v0x2538f70_0, 0, 4>, v0x2538f70_0 {0 0 0};
+T_1.8 ;
+    %load/vec4 v0x25390d0_0;
+    %load/vec4 v0x2538aa0_0;
+    %cmp/ne;
+    %jmp/0xz  T_1.10, 6;
+    %vpi_call 2 131 "$display", "   o_remainder should have been %b %b %b %b (0x%H), but was %b %b %b %b (0x%H) instead", &PV<v0x2538aa0_0, 12, 4>, &PV<v0x2538aa0_0, 8, 4>, &PV<v0x2538aa0_0, 4, 4>, &PV<v0x2538aa0_0, 0, 4>, v0x2538aa0_0, &PV<v0x25390d0_0, 12, 4>, &PV<v0x25390d0_0, 8, 4>, &PV<v0x25390d0_0, 4, 4>, &PV<v0x25390d0_0, 0, 4>, v0x25390d0_0 {0 0 0};
+T_1.10 ;
+    %load/vec4 v0x2539030_0;
+    %load/vec4 v0x25389c0_0;
+    %cmp/ne;
+    %jmp/0xz  T_1.12, 6;
+    %vpi_call 2 136 "$display", "   o_quotient should have been %b %b %b %b (0x%H), but was %b %b %b %b (0x%H) instead", &PV<v0x25389c0_0, 12, 4>, &PV<v0x25389c0_0, 8, 4>, &PV<v0x25389c0_0, 4, 4>, &PV<v0x25389c0_0, 0, 4>, v0x25389c0_0, &PV<v0x2539030_0, 12, 4>, &PV<v0x2539030_0, 8, 4>, &PV<v0x2539030_0, 4, 4>, &PV<v0x2539030_0, 0, 4>, v0x2539030_0 {0 0 0};
+T_1.12 ;
+T_1.6 ;
+T_1.4 ;
+    %delay 2000, 0;
+    %jmp T_1.2;
+T_1.3 ;
+    %load/vec4 v0x2538eb0_0;
+    %cmpi/ne 0, 0, 32;
+    %jmp/0xz  T_1.14, 4;
+    %vpi_call 2 153 "$fclose", v0x2538eb0_0 {0 0 0};
+T_1.14 ;
+    %vpi_func 2 158 "$random" 32 {0 0 0};
+    %pad/s 16;
+    %store/vec4 v0x2538b80_0, 0, 16;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538c90_0, 0, 16;
+    %delay 8000, 0;
+    %load/vec4 v0x2539170_0;
+    %pad/u 32;
+    %cmpi/ne 0, 0, 32;
+    %flag_mov 8, 6;
+    %load/vec4 v0x2539210_0;
+    %pad/u 32;
+    %cmpi/ne 0, 0, 32;
+    %flag_or 6, 8;
+    %jmp/0xz  T_1.16, 6;
+    %load/vec4 v0x25387b0_0;
+    %cmpi/s 15, 0, 32;
+    %jmp/0xz  T_1.18, 5;
+    %vpi_call 2 163 "$display", "[lc4_divider] Error at test %d: i_dividend = 0x%H, i_divisor = 0x%H, o_quotient and o_remainder should both be 0, but o_quotient was %b %b %b %b (0x%H) and o_remainder was %b %b %b %b (0x%H) instead", v0x25386f0_0, v0x2538b80_0, v0x2538c90_0, &PV<v0x2539170_0, 12, 4>, &PV<v0x2539170_0, 8, 4>, &PV<v0x2539170_0, 4, 4>, &PV<v0x2539170_0, 0, 4>, v0x2539170_0, &PV<v0x2539210_0, 12, 4>, &PV<v0x2539210_0, 8, 4>, &PV<v0x2539210_0, 4, 4>, &PV<v0x2539210_0, 0, 4>, v0x2539210_0 {0 0 0};
+T_1.18 ;
+    %load/vec4 v0x25387b0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25387b0_0, 0, 32;
+T_1.16 ;
+    %load/vec4 v0x25386f0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25386f0_0, 0, 32;
+    %load/vec4 v0x2538610_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x2538610_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x25386f0_0, 0, 32;
+T_1.20 ;
+    %load/vec4 v0x25386f0_0;
+    %cmpi/s 4000, 0, 32;
+    %jmp/0xz T_1.21, 5;
+    %vpi_func 2 184 "$random" 32 {0 0 0};
+    %pad/s 16;
+    %store/vec4 v0x2538b80_0, 0, 16;
+    %vpi_func 2 185 "$random" 32 {0 0 0};
+    %pad/s 16;
+    %store/vec4 v0x2538c90_0, 0, 16;
+    %delay 8000, 0;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x25389c0_0, 0, 16;
+    %pushi/vec4 0, 0, 16;
+    %store/vec4 v0x2538aa0_0, 0, 16;
+    %load/vec4 v0x2538c90_0;
+    %cmpi/ne 0, 0, 16;
+    %jmp/0xz  T_1.22, 6;
+    %load/vec4 v0x2538b80_0;
+    %load/vec4 v0x2538c90_0;
+    %div;
+    %store/vec4 v0x25389c0_0, 0, 16;
+    %load/vec4 v0x2538b80_0;
+    %load/vec4 v0x2538c90_0;
+    %mod;
+    %store/vec4 v0x2538aa0_0, 0, 16;
+T_1.22 ;
+    %load/vec4 v0x25389c0_0;
+    %load/vec4 v0x2539170_0;
+    %cmp/ne;
+    %jmp/0xz  T_1.24, 6;
+    %load/vec4 v0x25387b0_0;
+    %cmpi/s 15, 0, 32;
+    %jmp/0xz  T_1.26, 5;
+    %vpi_call 2 205 "$display", "[lc4_divider] Error at test %d: i_dividend = %b %b %b %b (0x%H), i_divisor = %b %b %b %b (0x%H), o_quotient should have been %b %b %b %b (0x%H), but was %b %b %b %b (0x%H) instead", v0x25386f0_0, &PV<v0x2538b80_0, 12, 4>, &PV<v0x2538b80_0, 8, 4>, &PV<v0x2538b80_0, 4, 4>, &PV<v0x2538b80_0, 0, 4>, v0x2538b80_0, &PV<v0x2538c90_0, 12, 4>, &PV<v0x2538c90_0, 8, 4>, &PV<v0x2538c90_0, 4, 4>, &PV<v0x2538c90_0, 0, 4>, v0x2538c90_0, &PV<v0x25389c0_0, 12, 4>, &PV<v0x25389c0_0, 8, 4>, &PV<v0x25389c0_0, 4, 4>, &PV<v0x25389c0_0, 0, 4>, v0x25389c0_0, &PV<v0x2539170_0, 12, 4>, &PV<v0x2539170_0, 8, 4>, &PV<v0x2539170_0, 4, 4>, &PV<v0x2539170_0, 0, 4>, v0x2539170_0 {0 0 0};
+T_1.26 ;
+    %load/vec4 v0x25387b0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25387b0_0, 0, 32;
+T_1.24 ;
+    %load/vec4 v0x25386f0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25386f0_0, 0, 32;
+    %load/vec4 v0x2538610_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x2538610_0, 0, 32;
+    %load/vec4 v0x2538aa0_0;
+    %load/vec4 v0x2539210_0;
+    %cmp/ne;
+    %jmp/0xz  T_1.28, 6;
+    %load/vec4 v0x25387b0_0;
+    %cmpi/s 15, 0, 32;
+    %jmp/0xz  T_1.30, 5;
+    %vpi_call 2 224 "$display", "[lc4_divider] Error at test %d: i_dividend = %b %b %b %b (0x%H), i_divisor = %b %b %b %b (0x%H), o_remainder should have been %b %b %b %b (0x%H), but was %b %b %b %b (0x%H) instead", v0x25386f0_0, &PV<v0x2538b80_0, 12, 4>, &PV<v0x2538b80_0, 8, 4>, &PV<v0x2538b80_0, 4, 4>, &PV<v0x2538b80_0, 0, 4>, v0x2538b80_0, &PV<v0x2538c90_0, 12, 4>, &PV<v0x2538c90_0, 8, 4>, &PV<v0x2538c90_0, 4, 4>, &PV<v0x2538c90_0, 0, 4>, v0x2538c90_0, &PV<v0x2538aa0_0, 12, 4>, &PV<v0x2538aa0_0, 8, 4>, &PV<v0x2538aa0_0, 4, 4>, &PV<v0x2538aa0_0, 0, 4>, v0x2538aa0_0, &PV<v0x2539210_0, 12, 4>, &PV<v0x2539210_0, 8, 4>, &PV<v0x2539210_0, 4, 4>, &PV<v0x2539210_0, 0, 4>, v0x2539210_0 {0 0 0};
+T_1.30 ;
+    %load/vec4 v0x25387b0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25387b0_0, 0, 32;
+T_1.28 ;
+    %load/vec4 v0x25386f0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x25386f0_0, 0, 32;
+    %load/vec4 v0x2538610_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x2538610_0, 0, 32;
+    %delay 2000, 0;
+    %load/vec4 v0x2538510_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x2538510_0, 0, 32;
+    %jmp T_1.20;
+T_1.21 ;
+    %load/vec4 v0x25387b0_0;
+    %cmpi/s 15, 0, 32;
+    %flag_or 5, 4; GT is !LE
+    %flag_inv 5;
+    %jmp/0xz  T_1.32, 5;
+    %load/vec4 v0x25387b0_0;
+    %subi 15, 0, 32;
+    %vpi_call 2 244 "$display", "Additional %d errors NOT printed.", S<0,vec4,s32> {1 0 0};
+T_1.32 ;
+    %vpi_call 2 246 "$display", "Simulation finished: %d test cases %d errors", v0x2538610_0, v0x25387b0_0 {0 0 0};
+    %load/vec4 v0x2538610_0;
+    %store/vec4 v0x2538430_0, 0, 32;
+    %load/vec4 v0x2538610_0;
+    %load/vec4 v0x25387b0_0;
+    %sub;
+    %store/vec4 v0x2538350_0, 0, 32;
+    %fork TD_test_divider.printPoints, S_0x25381c0;
+    %join;
+    %vpi_call 2 248 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "testbench_lc4_divider.v";
+    "lc4_divider.v";
+    "./print_points.v";

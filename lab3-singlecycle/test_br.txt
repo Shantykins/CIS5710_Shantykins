@@ -1,0 +1,20 @@
+echo \`define INPUT_FILE \"/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.ctrace\" > .set_testcase.v
+echo \`define OUTPUT_FILE \"/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.output\" >> .set_testcase.v
+echo \`define ORIG_INPUT_FILE \"/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.trace\" >> .set_testcase.v
+echo \`define MEMORY_IMAGE_FILE \"/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.hex\" >> .set_testcase.v
+echo \`define TEST_CASE \"test_br\" >> .set_testcase.v
+echo \`define VCD_FILE \"test_br.vcd\" >> .set_testcase.v
+/home1/c/cis5710/tools/bin/iverilog
+iverilog -Wall -Iinclude -s test_processor -o a.out .set_testcase.v lc4_alu.v lc4_cla.v lc4_decoder.v lc4_divider.v lc4_regfile.v lc4_single.v include/register.v include/lc4_memory.v include/clock_util.v include/delay_eight_cycles.v include/bram.v testbench_lc4_processor.v
+./a.out
+INFO: include/bram.v:45: /mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.hex
+      Time: 0 Scope: test_processor.memory.memory
+VCD info: dumpfile single.vcd opened for output.
+Instruction number:       10000
+Simulation finished:      152310 test cases           0 errors [/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab3-singlecycle/test_data/test_br.ctrace]
+<scorePossible>    152310</scorePossible>
+<scoreActual>    152310</scoreActual>
+  Instructions:               15231
+  Total Cycles:               15231
+  CPI x 1000:        1000
+  IPC x 1000:        1000

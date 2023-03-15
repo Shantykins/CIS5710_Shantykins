@@ -1,0 +1,7 @@
+/home1/c/cis5710/tools/bin/iverilog
+iverilog -Wall -Iinclude -s test_alu -o a.out lc4_alu.v lc4_divider.v lc4_cla.v testbench_lc4_alu.v
+./a.out
+VCD info: dumpfile alu.vcd opened for output.
+Simulation finished:       24112 test cases           0 errors
+<scorePossible>     24112</scorePossible>
+<scoreActual>     24112</scoreActual>

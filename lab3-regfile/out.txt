@@ -1,0 +1,6 @@
+/home1/c/cis5710/tools/bin/iverilog
+iverilog -Wall -Iinclude -s test_regfile -o a.out lc4_regfile.v register.v testbench_lc4_regfile.v
+./a.out
+Simulation finished:        2022 test cases           0 errors [test_lc4_regfile.input]
+<scorePossible>      2022</scorePossible>
+<scoreActual>      2022</scoreActual>
