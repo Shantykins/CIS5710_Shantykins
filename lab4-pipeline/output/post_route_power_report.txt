@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
-| Date             : Wed Mar 15 16:43:58 2023
-| Host             : big17.seas.upenn.edu running 64-bit openSUSE Leap 15.4
+| Date             : Thu Mar 30 21:09:29 2023
+| Host             : big25.seas.upenn.edu running 64-bit openSUSE Leap 15.4
 | Command          : report_power -file ./output/post_route_power_report.txt
 | Design           : lc4_system
 | Device           : xc7z020clg484-1
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.260        |
+| Total On-Chip Power (W)  | 0.267        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.149        |
+| Dynamic (W)              | 0.156        |
 | Device Static (W)        | 0.110        |
 | Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 82.0         |
-| Junction Temperature (C) | 28.0         |
+| Max Ambient (C)          | 81.9         |
+| Junction Temperature (C) | 28.1         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -53,20 +53,20 @@ Table of Contents
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
 | Clocks                  |     0.001 |        7 |       --- |             --- |
-| Slice Logic             |     0.002 |     2271 |       --- |             --- |
-|   LUT as Logic          |     0.002 |     1348 |     53200 |            2.53 |
-|   CARRY4                |    <0.001 |      112 |     13300 |            0.84 |
-|   F7/F8 Muxes           |    <0.001 |       57 |     53200 |            0.11 |
-|   Register              |    <0.001 |      369 |    106400 |            0.35 |
-|   LUT as Shift Register |    <0.001 |        2 |     17400 |            0.01 |
-|   Others                |     0.000 |       79 |       --- |             --- |
-| Signals                 |     0.003 |     1697 |       --- |             --- |
-| Block RAM               |     0.014 |     39.5 |       140 |           28.21 |
+| Slice Logic             |     0.003 |     2659 |       --- |             --- |
+|   LUT as Logic          |     0.003 |     1501 |     53200 |            2.82 |
+|   CARRY4                |    <0.001 |      120 |     13300 |            0.90 |
+|   Register              |    <0.001 |      503 |    106400 |            0.47 |
+|   F7/F8 Muxes           |    <0.001 |       53 |     53200 |            0.10 |
+|   LUT as Shift Register |    <0.001 |       10 |     17400 |            0.06 |
+|   Others                |     0.000 |      114 |       --- |             --- |
+| Signals                 |     0.004 |     1967 |       --- |             --- |
+| Block RAM               |     0.019 |     39.5 |       140 |           28.21 |
 | MMCM                    |     0.122 |        1 |         4 |           25.00 |
 | DSPs                    |    <0.001 |        1 |       220 |            0.45 |
-| I/O                     |     0.006 |       31 |       200 |           15.50 |
+| I/O                     |     0.006 |       36 |       200 |           18.00 |
 | Static Power            |     0.110 |          |           |                 |
-| Total                   |     0.260 |          |           |                 |
+| Total                   |     0.267 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -76,7 +76,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.029 |       0.020 |      0.009 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.035 |       0.026 |      0.009 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.079 |       0.068 |      0.011 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -85,7 +85,7 @@ Table of Contents
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccbram   |       1.000 |     0.003 |       0.001 |      0.002 |       NA    | Unspecified | NA         |
+| Vccbram   |       1.000 |     0.004 |       0.002 |      0.002 |       NA    | Unspecified | NA         |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -153,16 +153,16 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-----------------------------+-----------+
-| Name                        | Power (W) |
-+-----------------------------+-----------+
-| lc4_system                  |     0.149 |
-|   memory                    |     0.014 |
-|     memory                  |     0.014 |
-|   mmcm0                     |     0.123 |
-|   proc_inst                 |     0.005 |
-|     alu                     |     0.001 |
-|     memory_alu_pipeline_reg |     0.003 |
-+-----------------------------+-----------+
++----------------------------------+-----------+
+| Name                             | Power (W) |
++----------------------------------+-----------+
+| lc4_system                       |     0.156 |
+|   memory                         |     0.020 |
+|     memory                       |     0.020 |
+|   mmcm0                          |     0.123 |
+|   proc_inst                      |     0.006 |
+|     alu                          |     0.001 |
+|     writeback_rdsel_pipeline_reg |     0.003 |
++----------------------------------+-----------+
 
 

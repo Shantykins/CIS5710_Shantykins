@@ -599,9 +599,9 @@ module lc4_processor
     assign test_regfile_wsel = writeback_rdsel; // Testbench: which register to write in the register file 
     assign test_regfile_data = decode_regfile_rd_input; // Testbench: value to write into the register file
     assign test_nzp_we = writeback_nzp_we; // Testbench: NZP condition codes write enable
-    assign test_nzp_new_bits = (writeback_alu_pipeline_out[15] == 1'b1) ? 3'b100 :       // N
-                               (writeback_alu_pipeline_out == 16'b0)    ? 3'b010 :       // Z
-                               (writeback_alu_pipeline_out[15] == 1'b0) ? 3'b001 :       // P
+    assign test_nzp_new_bits = (decode_regfile_rd_input[15] == 1'b1) ? 3'b100 :       // N
+                               (decode_regfile_rd_input == 16'b0)    ? 3'b010 :       // Z
+                               (decode_regfile_rd_input[15] == 1'b0) ? 3'b001 :       // P
                                                              3'b000; // Testbench: value to write to NZP bits
    
    assign test_dmem_we             = writeback_is_store;       // Testbench: data memory write enable
