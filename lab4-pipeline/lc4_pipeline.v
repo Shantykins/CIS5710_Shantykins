@@ -70,10 +70,18 @@ module lc4_processor
    wire [15:0] pc;            // Output of PC Register
    wire [15:0] pc_adder_out;  // Output of PC + 1
    wire pc_reg_enable;
+   wire [15:0] decode_pipeline_reg_ir_input;
+   wire [15:0] decode_pipeline_reg_pc_input;
 
    // Logic
-   assign next_pc = pc_adder_out;  // Assign to cla out for ALU insns. TBD: CHANGE LATER
+   assign next_pc = (branch_is_taken == 1'b1) ? execute_branch_pc :
+                                                pc_adder_out;  // Assign to cla out for ALU insns
+
    assign pc_reg_enable = (stall == 1'b1) ? 1'b0 : 1'b1;
+
+   // decode_pipeline_reg_pc_input = (branch_is_taken == 1'b1) ? 16'h8200 : pc; 
+
+   assign decode_pipeline_reg_ir_input = (branch_is_taken == 1'b1) ? 16'h0 : i_cur_insn;
 
    //
    // TEST SIGNAL : PC
@@ -93,7 +101,9 @@ module lc4_processor
    // Pipeline Registers : PC
    Nbit_reg #(16, 16'h8200) decode_pc_pipeline_reg (.in(pc), .out(decode_pc_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst));
    // Fetch Instruction Register
-   Nbit_reg #(16, 16'h0000) decode_ir_pipeline_reg (.in(i_cur_insn), .out(decode_ir_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst)); 
+   Nbit_reg #(16, 16'h0000) decode_ir_pipeline_reg (.in(decode_pipeline_reg_ir_input), .out(decode_ir_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst)); 
+   // Pipeline Registers : PC + 1
+   Nbit_reg #(16, 16'h8200) decode_clapc_pipeline_reg (.in(pc_adder_out), .out(decode_clapc_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst));
 
    //
    // DECODER INSTANTIATION
@@ -124,12 +134,14 @@ module lc4_processor
                               .o_rs_data(decode_regfile_rs_output),   // rs contents
                               .i_rt(decode_rtsel),                    // rt selector
                               .o_rt_data(decode_regfile_rt_output),   // rt contents
-                              .i_rd(writeback_rdsel),                    // rd selector
+                              .i_rd(writeback_rdsel),      // rd selector
                               .i_wdata(decode_regfile_rd_input) ,     // data to write
-                              .i_rd_we(writeback_regfile_we)             // write enable
+                              .i_rd_we(writeback_regfile_we)          // write enable
                             );
    //Wire Declaration
    wire decode_regs_enable;
+   wire [15:0] decode_clapc_pipeline_out;
+   wire decode_regfile_we_in;
 
    wire [15:0] decode_pc_pipeline_out; // Output of PC Fetch pipeline register
    wire [15:0] decode_ir_pipeline_out; // Output of IR Fetch pipeline register
@@ -149,6 +161,7 @@ module lc4_processor
    wire [15:0] decode_regfile_rs_output; 
    wire [15:0] decode_regfile_rt_output; 
    wire [15:0] decode_regfile_rd_input; 
+   wire [2:0]  decode_rdsel_regfile_input;
 
    wire [15:0] execute_regfile_rs_input;
    wire [15:0] execute_regfile_rt_input;
@@ -156,18 +169,26 @@ module lc4_processor
    //
    // Logic
    //
-   assign decode_regs_enable = pc_reg_enable;
-  // assign decode_regfile_rd_input = (writeback_select_pc_plus_one == 1'b1) ? decode_pc_pipeline_out : writeback_alu_pipeline_out;
 
-     assign decode_regfile_rd_input = (writeback_is_load == 1'b1)             ? i_cur_dmem_data : 
-                                      (writeback_select_pc_plus_one == 1'b1)  ? decode_pc_pipeline_out : 
-                                                                                writeback_alu_pipeline_out;
+   assign decode_regs_enable = pc_reg_enable;
+
+   // assign decode_regfile_rd_input = (writeback_is_load == 1'b1)           ?   writeback_data_pipeline_out :   
+   //                                  (execute_select_pc_plus_one == 1'b1)  ? execute_pc_pipeline_out :
+   //                                  (writeback_regfile_we == 1'b1) ?  writeback_alu_pipeline_out : 16'h0;
+   
+   // assign decode_regfile_we_in = (branch_is_taken == 1'b1 && execute_regfile_we == 1'b1) ? execute_regfile_we : 
+   //                               (writeback_regfile_we == 1'b1) ? writeback_regfile_we : decode_regfile_we;                           
+     
+   assign decode_rdsel_regfile_input = (writeback_regfile_we == 1'b1) ? writeback_rdsel : execute_rdsel; 
+   assign decode_regfile_rd_input = (writeback_select_pc_plus_one == 1'b1)  ? writeback_clapc_pipeline_out : 
+                                    (writeback_is_load == 1'b1)             ? writeback_data_pipeline_out : 
+                                                                              writeback_alu_pipeline_out;
 
    // // WD Bypass Logic
-   assign execute_regfile_rs_input = ((writeback_rdsel == decode_rssel) && writeback_regfile_we) ? writeback_alu_pipeline_out : 
-                                                                           decode_regfile_rs_output;
-   assign execute_regfile_rt_input = ((writeback_rdsel == decode_rtsel) && writeback_regfile_we) ? writeback_alu_pipeline_out : 
-                                                                          decode_regfile_rt_output;
+   assign execute_regfile_rs_input = ((writeback_rdsel == decode_rssel) && writeback_regfile_we) ? decode_regfile_rd_input : 
+                                                                                                   decode_regfile_rs_output;
+   assign execute_regfile_rt_input = ((writeback_rdsel == decode_rtsel) && writeback_regfile_we) ? decode_regfile_rd_input : 
+                                                                                                   decode_regfile_rt_output;
 
    /*************************************************************************************
    *    STALL LOGIC (PRE-EXECURTE STAGE)
@@ -198,28 +219,29 @@ module lc4_processor
    //
    // LOGIC
    //
-   assign stall = //1'b0;
+
+   assign stall = //(branch_is_taken == 1'b1) || 
                   (execute_is_load) &&
-                  ((decode_rssel == execute_rdsel) ||
-                   ((decode_rtsel == execute_rdsel) && (decode_is_store == 1'b0))) ? 1 : 0;
+                  (((decode_rssel == execute_rdsel) && (decode_rsre == 1'b1)) ||
+                   ((decode_rtsel == execute_rdsel) && (decode_rtre == 1'b1) && (decode_is_store == 1'b0))) ? 1 : 0;
    
    assign execute_pc_pipeline_in = decode_pc_pipeline_out; // Output of PC Fetch pipeline register
-   assign execute_ir_pipeline_in = (stall == 1'b1) ? 16'h0 : decode_ir_pipeline_out; // Output of IR Fetch pipeline register
-   assign execute_rs_pipeline_in = (stall == 1'b1) ? 16'h0 : execute_regfile_rs_input; // Output of RS Fetch pipeline register
-   assign execute_rt_pipeline_in = (stall == 1'b1) ? 16'h0 : execute_regfile_rt_input; // Output of IR Fetch pipeline register
+   assign execute_ir_pipeline_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 16'h0 : decode_ir_pipeline_out; // Output of IR Fetch pipeline register
+   assign execute_rs_pipeline_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 16'h0 : execute_regfile_rs_input; // Output of RS Fetch pipeline register
+   assign execute_rt_pipeline_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 16'h0 : execute_regfile_rt_input; // Output of IR Fetch pipeline register
 
-   assign execute_rssel_reg_in = (stall == 1'b1) ? 2'b0 : decode_rssel;              // rs
-   assign execute_rsre_reg_in = (stall == 1'b1) ? 1'b0 : decode_rsre;               // does this instruction read from rs?
-   assign execute_rtsel_reg_in = (stall == 1'b1) ? 2'b0 : decode_rtsel;              // rt
-   assign execute_rtre_reg_in = (stall == 1'b1) ? 1'b0 : decode_rtre;               // does this instruction read from rt?
-   assign execute_rdsel_reg_in = (stall == 1'b1) ? 2'b0 : decode_rdsel;               // rd
-   assign execute_regfile_we_reg_in = (stall == 1'b1) ? 1'b0 : decode_regfile_we;         // does this instruction write to rd?
-   assign execute_nzp_we_reg_in = (stall == 1'b1) ? 1'b0 : decode_nzp_we;             // does this instruction write the NZP bits?
-   assign execute_select_pc_plus_one_reg_in = (stall == 1'b1) ? 1'b0 : decode_select_pc_plus_one; // write PC+1 to the regfile?
-   assign execute_is_load_reg_in = (stall == 1'b1) ? 1'b0 : decode_is_load;            // is this a load instruction?
-   assign execute_is_store_reg_in = (stall == 1'b1) ? 1'b0 : decode_is_store;           // is this a store instruction?
-   assign execute_is_branch_reg_in = (stall == 1'b1) ? 1'b0 : decode_is_branch;          // is this a branch instruction?
-   assign execute_is_control_insn_reg_in = (stall == 1'b1) ? 1'b0 : decode_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
+   assign execute_rssel_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 2'b0 : decode_rssel;              // rs
+   assign execute_rsre_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_rsre;               // does this instruction read from rs?
+   assign execute_rtsel_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 2'b0 : decode_rtsel;              // rt
+   assign execute_rtre_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_rtre;               // does this instruction read from rt?
+   assign execute_rdsel_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 2'b0 : decode_rdsel;               // rd
+   assign execute_regfile_we_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_regfile_we;         // does this instruction write to rd?
+   assign execute_nzp_we_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_nzp_we;             // does this instruction write the NZP bits?
+   assign execute_select_pc_plus_one_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_select_pc_plus_one; // write PC+1 to the regfile?
+   assign execute_is_load_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_is_load;            // is this a load instruction?
+   assign execute_is_store_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_is_store;           // is this a store instruction?
+   assign execute_is_branch_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_is_branch;          // is this a branch instruction?
+   assign execute_is_control_insn_reg_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 1'b0 : decode_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
 
 
    /*************************************************************************************
@@ -233,6 +255,8 @@ module lc4_processor
    // - Output from Regfile 
    // - Output from Regfile
    //==============================================================
+   // Pipeline Registers : PC + 1
+   Nbit_reg #(16, 16'h8200) execute_clapc_pipeline_reg (.in(decode_clapc_pipeline_out), .out(execute_clapc_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst));
    // Pipeline Registers : PC
    Nbit_reg #(16, 16'h8200) execute_pc_pipeline_reg (.in(execute_pc_pipeline_in), .out(execute_pc_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
    // Pipeline Instruction Register
@@ -289,6 +313,8 @@ module lc4_processor
    wire [15:0] execute_rs_pipeline_out; // Output of RS Fetch pipeline register
    wire [15:0] execute_rt_pipeline_out; // Output of IR Fetch pipeline register
 
+   wire [15:0] execute_clapc_pipeline_out;
+
    wire stall_execute_in;
    wire stall_execute_out;
 
@@ -305,7 +331,9 @@ module lc4_processor
    wire        execute_is_branch;          // is this a branch instruction?
    wire        execute_is_control_insn;     // is this a control instruction (JSR, JSRR, RTI, JMPR, JMP, TRAP)?
 
+   wire [15:0] execute_branch_pc;
 
+   wire branch_is_taken;
 
    wire [15:0] execute_aluin_rs;
    wire [15:0] execute_aluin_rt; 
@@ -319,12 +347,40 @@ module lc4_processor
    // Logic
    //
 
+   //assign branch_is_taken = (decode_pc_pipeline_out == execute_branch_pc) ? 1'b0 : 1'b1; 
+
+   assign branch_is_taken = (execute_ir_pipeline_out[15:9]  == 7'b0000001 && nzp_out == 3'b001) || //BRp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000010 && nzp_out == 3'b010)  ||  //BRz
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000011 && (nzp_out==3'b010 || nzp_out==3'b001))  ||  //BRzp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000100 && nzp_out == 3'b100)  ||  //BRn
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000101 && (nzp_out==3'b100 || nzp_out==3'b001))  ||  //BRnp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000110 && (nzp_out==3'b010 || nzp_out==3'b100))  ||  //BRnz
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000111 && (nzp_out==3'b010 || nzp_out==3'b001 || nzp_out==3'b100))  ||  //BRnzp
+                     (execute_is_control_insn == 1'b1)  ? 1'b1 : 1'b0;// JMPR
+                                                                                                        
+
    assign stall_execute_in = stall;
 
    assign  nzp_in =  (alu_rd_output[15] == 1'b1) ? 3'b100 :       // N
                      (alu_rd_output == 16'b0)    ? 3'b010 :       // Z
                      (alu_rd_output[15] == 1'b0) ? 3'b001 :       // P
                                                    3'b000;
+   //Branch calculation
+   assign execute_branch_pc = 
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000001 && nzp_out == 3'b001) ?  alu_rd_output :  //BRp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000010 && nzp_out == 3'b010) ?  alu_rd_output : //BRz
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000011 && (nzp_out==3'b010 || nzp_out==3'b001)) ?  alu_rd_output : //BRzp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000100 && nzp_out == 3'b100) ?  alu_rd_output : //BRn
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000101 && (nzp_out==3'b100 || nzp_out==3'b001)) ?  alu_rd_output : //BRnp
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000110 && (nzp_out==3'b010 || nzp_out==3'b100)) ?  alu_rd_output : //BRnz
+                     (execute_ir_pipeline_out[15:9]  == 7'b0000111 && (nzp_out==3'b010 || nzp_out==3'b001 || nzp_out==3'b100)) ?  alu_rd_output : //BRnzp
+                     (execute_is_control_insn == 1'b1 && execute_ir_pipeline_out[15:11]  == 5'b01001) ?  alu_rd_output : // JSR
+                     (execute_is_control_insn == 1'b1 && execute_ir_pipeline_out[15:11]  == 5'b11001)  ?  alu_rd_output : // JMP
+                     (execute_is_control_insn == 1'b1 && execute_ir_pipeline_out[15:12]  == 4'b1111)  ?  alu_rd_output : // TRAP
+                     (execute_ir_pipeline_out[15:12]  == 4'b1000) ?  alu_rd_output :  // RTI
+                     (execute_is_control_insn == 1'b1 && execute_ir_pipeline_out[15:11] == 5'b01000 ) ?  alu_rd_output : // JSRR
+                     (execute_is_control_insn == 1'b1 && execute_ir_pipeline_out[15:11] == 5'b11000) ?  alu_rd_output : // JMPR
+                                                                                                         decode_pc_pipeline_out; // Default ;
 
    //
    // Bypassing
@@ -332,11 +388,11 @@ module lc4_processor
 
    // ALU IN RS Bypass Logic
    assign execute_aluin_rs = ((memory_rdsel == execute_rssel) && memory_regfile_we)    ? memory_alu_pipeline_out :     // MX
-                             ((writeback_rdsel == execute_rssel) && writeback_regfile_we) ? writeback_alu_pipeline_out :  // WX
+                             ((writeback_rdsel == execute_rssel) && writeback_regfile_we) ? decode_regfile_rd_input :  // WX
                                                                                     execute_rs_pipeline_out;
    // ALU IN RT Bypass Logic
    assign execute_aluin_rt = ((memory_rdsel == execute_rtsel) && memory_regfile_we)    ? memory_alu_pipeline_out :     // MX
-                             ((writeback_rdsel == execute_rtsel) && writeback_regfile_we) ? writeback_alu_pipeline_out :  // WX
+                             ((writeback_rdsel == execute_rtsel) && writeback_regfile_we) ? decode_regfile_rd_input :  // WX
                                                                                            execute_rt_pipeline_out;
    /*************************************************************************************
     *    MEMORY STAGE
@@ -349,6 +405,8 @@ module lc4_processor
    // - RT output from Regfile
    //==============================================================
 
+   // Pipeline Registers : PC + 1
+   Nbit_reg #(16, 16'h8200) memory_clapc_pipeline_reg (.in(execute_clapc_pipeline_out), .out(memory_clapc_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst));
    // Pipeline Registers : PC
    Nbit_reg #(16, 16'h8200) memory_pc_pipeline_reg (.in(execute_pc_pipeline_out), .out(memory_pc_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
    // Pipeline Instruction Register
@@ -356,7 +414,7 @@ module lc4_processor
    // ALU Output
    Nbit_reg #(16, 16'h0000) memory_alu_pipeline_reg (.in(alu_rd_output), .out(memory_alu_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
    // Pipeline Rt 
-   Nbit_reg #(16, 16'h0000) memory_rt_pipeline_reg (.in(execute_rt_pipeline_out), .out(memory_rt_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+   Nbit_reg #(16, 16'h0000) memory_rt_pipeline_reg (.in(execute_aluin_rt), .out(memory_rt_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
 
    // Rs
    Nbit_reg #(3, 3'h0) memory_rs_reg (.in(execute_rssel), .out(memory_rssel), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
@@ -386,6 +444,9 @@ module lc4_processor
    // Stall Register
    Nbit_reg #(1, 1'h0) memory_stall_reg (.in(stall_execute_out), .out(stall_memory_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
 
+   // Branch is taken Register
+   Nbit_reg #(1, 1'h0) memory_branch_taken_reg (.in(branch_is_taken), .out(memory_branch_taken), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
    //
    // Wires
    //
@@ -395,6 +456,10 @@ module lc4_processor
    wire [15:0] memory_pc_pipeline_out;
    wire [15:0] mem_write_bypass_to_data;
    wire [15:0] mem_write_bypass_addr;
+
+   wire [15:0] memory_clapc_pipeline_out; 
+
+   wire memory_branch_taken;
 
    wire [ 2:0] memory_rssel;              // rs
    wire        memory_rsre;               // does this instruction read from rs?
@@ -415,32 +480,24 @@ module lc4_processor
    // Logic 
    //
 
-   assign o_dmem_towrite = (memory_is_store == 1'b1) ? mem_write_bypass_to_data : 16'h0000;
+   assign o_dmem_towrite = (memory_is_store == 1'b1) ? mem_write_bypass_to_data : 16'h0;
    assign o_dmem_we = memory_is_store; 
 
    assign o_dmem_addr = (memory_is_store == 1'b1 || 
-                          memory_is_load == 1'b1) ? mem_write_bypass_addr : 
+                         memory_is_load == 1'b1) ? memory_alu_pipeline_out : 
                                                     16'h0000;
 
-   assign test_dmem_we             = memory_is_store;       // Testbench: data memory write enable
-   assign test_dmem_addr           = o_dmem_addr;     // Testbench: address to read/write memory
-   assign test_dmem_data           = (memory_is_store == 1'b1) ? o_dmem_towrite :
-                                      (memory_is_load  == 1'b1) ? i_cur_dmem_data : 16'h0000;
+   // WM BYPASSING
 
-
+   // assign mem_write_bypass_to_data = ((writeback_rdsel == memory_rtsel)) ? (writeback_is_load == 1'b1) ? writeback_data_pipeline_out :
+   //                                                                         (writeback_is_store == 1'b1) ? memory_alu_pipeline_out :
+   //                                                                           (writeback_regfile_we)    ? writeback_alu_pipeline_out : 
+   //                                                                                                       memory_alu_pipeline_out :
+   //                                                                         memory_rt_pipeline_out;
 
    // WM BYPASSING
-   // =============
 
-   assign mem_write_bypass_to_data = ((writeback_rdsel == memory_rtsel) && 
-                                      (memory_is_store == 1'b1)&& 
-                                      (writeback_is_load == 1'b1))? writeback_data_pipeline_out : 
-                                                                       memory_rt_pipeline_out;
-
-   assign mem_write_bypass_addr =   ((writeback_rdsel == memory_rtsel) && 
-                                     (memory_is_store == 1'b1)&& 
-                                     (writeback_is_load == 1'b1)) ? writeback_alu_pipeline_out : 
-                                                                      memory_alu_pipeline_out;
+   assign mem_write_bypass_to_data = ((writeback_rdsel == memory_rtsel) && (writeback_regfile_we == 1'b1)) ? decode_regfile_rd_input : memory_rt_pipeline_out;
 
    /************************************************************************************
     *    WRITE-BACK STAGE
@@ -453,12 +510,18 @@ module lc4_processor
    // - Output from Memory
    //==============================================================
 
+  // Pipeline Registers : PC + 1
+   Nbit_reg #(16, 16'h8200) writeback_clapc_pipeline_reg (.in(memory_clapc_pipeline_out), .out(writeback_clapc_pipeline_out), .clk(clk), .we(decode_regs_enable), .gwe(gwe), .rst(rst));
    // Pipeline Registers : PC
    Nbit_reg #(16, 16'h8200) writeback_pc_pipeline_reg (.in(memory_pc_pipeline_out), .out(writeback_pc_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
    // Pipeline Instruction Register
    Nbit_reg #(16, 16'h0000) writeback_ir_pipeline_reg (.in(memory_ir_pipeline_out), .out(writeback_ir_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst)); 
    // Data Memory Output
    Nbit_reg #(16, 16'h0000) writeback_data_pipeline_reg (.in(i_cur_dmem_data), .out(writeback_data_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
+   // o_dmem_to_write
+   Nbit_reg #(16, 16'h0000) writeback_odmem_towrite_reg (.in(o_dmem_towrite), .out(writeback_odmem_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
    // Pipeline Rt 
    Nbit_reg #(16, 16'h0000) writeback_alu_pipeline_reg (.in(memory_alu_pipeline_out), .out(writeback_alu_pipeline_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
 
@@ -489,6 +552,10 @@ module lc4_processor
 
    // Stall Register
    Nbit_reg #(1, 1'h0) writeback_stall_reg (.in(stall_memory_out), .out(stall_writeback_out), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
+   // Branch is taken Register
+   Nbit_reg #(1, 1'h0) writeback_branch_taken_reg (.in(memory_branch_taken), .out(writeback_branch_taken), .clk(clk), .we(1'b1), .gwe(gwe), .rst(rst));
+
    //
    // Wire Declarations
    //
@@ -496,6 +563,9 @@ module lc4_processor
    wire [15:0] writeback_data_pipeline_out;
    wire [15:0] writeback_ir_pipeline_out;
    wire [15:0] writeback_pc_pipeline_out;
+   wire [15:0] writeback_odmem_pipeline_out;
+   wire [15:0] writeback_clapc_pipeline_out;
+   wire        writeback_branch_taken;
    
    wire        stall_writeback_out;
 
@@ -518,19 +588,26 @@ module lc4_processor
    //=======================================================
    
     assign test_stall = (stall_writeback_out == 1'b1) ? 2'b11 :
-                        (writeback_ir_pipeline_out[15:9] == 7'b0) ? 2'b10 : 2'b00; // No Stall
+                        (writeback_ir_pipeline_out  == 16'h0) ? 2'b10 : 
+                                                           2'b00; // No Stall
 
     //assign test_stall = 2'b0; 
     assign test_cur_pc =  writeback_pc_pipeline_out;// Testbench: program counter
     assign test_cur_insn = writeback_ir_pipeline_out; // Testbench: instruction bits
     assign test_regfile_we = writeback_regfile_we; // Testbench: register file write enable
     assign test_regfile_wsel = writeback_rdsel; // Testbench: which register to write in the register file 
-    assign test_regfile_data = writeback_alu_pipeline_out; // Testbench: value to write into the register file
+    assign test_regfile_data = decode_regfile_rd_input; // Testbench: value to write into the register file
     assign test_nzp_we = writeback_nzp_we; // Testbench: NZP condition codes write enable
     assign test_nzp_new_bits = (writeback_alu_pipeline_out[15] == 1'b1) ? 3'b100 :       // N
                                (writeback_alu_pipeline_out == 16'b0)    ? 3'b010 :       // Z
                                (writeback_alu_pipeline_out[15] == 1'b0) ? 3'b001 :       // P
                                                              3'b000; // Testbench: value to write to NZP bits
+   
+   assign test_dmem_we             = writeback_is_store;       // Testbench: data memory write enable
+   assign test_dmem_addr           = (writeback_is_store == 1'b1 || 
+                                       writeback_is_load == 1'b1) ? writeback_alu_pipeline_out : 16'h0; // Testbench: address to read/write memory
+   assign test_dmem_data           = (writeback_is_store == 1'b1) ?  writeback_odmem_pipeline_out :
+                                      (writeback_is_load == 1'b1) ? writeback_data_pipeline_out : 16'h0000;
 
 `ifndef NDEBUG
    always @(posedge gwe) begin
@@ -542,7 +619,7 @@ module lc4_processor
       // it will make the output easier to read.  Use %b, %h, and %d
       // for binary, hex, and decimal output of additional variables.
       // You do not need to add a \n at the end of your format string.
-      // $display("%d ...", $time);
+     //$display("%d %h %h", $time, test_cur_pc, writeback_pc_pipeline_out);
 
       // Try adding a $display() call that prints out the PCs of
       // each pipeline stage in hex.  Then you can easily look up the

@@ -9,6 +9,7 @@ iverilog -Wall -Iinclude -s test_processor -o a.out .set_testcase.v lc4_alu.v lc
 ./a.out
 INFO: include/bram.v:45: /mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab4-pipeline/test_data/test_alu.hex
       Time: 0 Scope: test_processor.memory.memory
+VCD info: dumpfile pipeline.vcd opened for output.
 Cycle number:           0
 Simulation finished:       83405 test cases           0 errors [/mnt/castor/seas_home/s/shantz/cis5710/CIS5710_Shantykins/lab4-pipeline/test_data/test_alu.ctrace]
 <scorePossible>     83405</scorePossible>
