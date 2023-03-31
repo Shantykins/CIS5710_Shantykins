@@ -221,9 +221,10 @@ module lc4_processor
    //
 
    assign stall = //(branch_is_taken == 1'b1) || 
-                  (execute_is_load) &&
+                  ((execute_is_load) &&
                   (((decode_rssel == execute_rdsel) && (decode_rsre == 1'b1)) ||
-                   ((decode_rtsel == execute_rdsel) && (decode_rtre == 1'b1) && (decode_is_store == 1'b0))) ? 1 : 0;
+                   ((decode_rtsel == execute_rdsel) && (decode_rtre == 1'b1) && (decode_is_store == 1'b0)))) ||
+                   ((execute_is_load && decode_is_branch)) ? 1 : 0;
    
    assign execute_pc_pipeline_in = decode_pc_pipeline_out; // Output of PC Fetch pipeline register
    assign execute_ir_pipeline_in = (stall == 1'b1 || branch_is_taken == 1'b1) ? 16'h0 : decode_ir_pipeline_out; // Output of IR Fetch pipeline register
